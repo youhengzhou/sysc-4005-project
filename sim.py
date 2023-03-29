@@ -66,13 +66,31 @@ products = {
 
 fel = []
 
-simulation_time = 0
+sim_time = 0
 
 def handle_event(event, fel):
-    arrival_time, event_type = event
+    if event == 'ins1':
+        return handle_ins1(event, fel)
 
-    fel.pop(0)
-    fel.append([arrival_time, event_type])
+def handle_ins1(event, fel):
+    pass
+
+def handle_ins2(event, fel):
+    pass
+
+def handle_ws1(event, fel):
+    pass
+
+def handle_ws2(event, fel):
+    pass
+
+def handle_ws3(event, fel):
+    pass
+
+while True:
+    if len(fel) <= 0 or sim_time > 1000000:
+        break
+    
     fel.sort()
-
-    return fel
+    sim_time, event = fel.pop(0)
+    fel = handle_event(sim_time, event)
