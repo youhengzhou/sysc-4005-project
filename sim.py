@@ -47,19 +47,6 @@ def appendToCSV(arrival_time, event_type):
     ws2_i = Decimal(sim_time) - Decimal(ws2_w)
     ws3_i = Decimal(sim_time) - Decimal(ws3_w)
 
-    c1_ws1_s += c1_ws1
-    c1_ws2_s += c1_ws2
-    c1_ws3_s += c1_ws3
-    c2_ws2_s += c2_ws2
-    c3_ws3_s += c3_ws3
-
-    if not sim_time == 0:
-        c1_ws1_o = Decimal(c1_ws1_s) / Decimal(sim_time)
-        c1_ws2_o = Decimal(c1_ws2_s) / Decimal(sim_time)
-        c1_ws3_o = Decimal(c1_ws3_s) / Decimal(sim_time)
-        c2_ws2_o = Decimal(c2_ws2_s) / Decimal(sim_time)
-        c3_ws3_o = Decimal(c3_ws3_s) / Decimal(sim_time)
-
     new_row = "\n%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (str(arrival_time),event_type,str(p1_t),str(p2_t),str(p3_t),str(ins1_b),str(ins2_b),str(ws1_i),str(ws2_i),str(ws3_i),str(c1_ws1_o),str(c1_ws2_o),str(c1_ws3_o),str(c2_ws2_o),str(c3_ws3_o),str(c1),str(c2),str(c3),str(ins1),str(ins2),str(c1_ws1),str(c1_ws2),str(c1_ws3),str(c2_ws2),str(c3_ws3),str(ws1),str(ws2),str(ws3),str(p1),str(p2),str(p3))
     with open("data.csv", "a") as f:
         f.write(new_row)
@@ -137,7 +124,7 @@ heapq.heapify(fel)
 while True:
     if sim_time > 1000:
         break
-    
+
     # check states, create events to be handled
     # if entity is 0, create start event
     # if entity is 1, create end event
@@ -169,10 +156,27 @@ while True:
     if ws3 == 1 and c1_ws3 > 0 and c3_ws3 > 0 and not any(event[1] == 'ws3_done' for event in fel):
         heapq.heappush(fel,([sim_time + random.choice(ws3_input), 'ws3_done']))
 
+    prev_sim_time = sim_time
+
     print(fel)
     # pop min event from fel
     sim_time, event_type = heapq.heappop(fel)
-    
+
+    time_interval = sim_time - prev_sim_time
+
+    c1_ws1_s += c1_ws1 * time_interval
+    c1_ws2_s += c1_ws2 * time_interval
+    c1_ws3_s += c1_ws3 * time_interval
+    c2_ws2_s += c2_ws2 * time_interval
+    c3_ws3_s += c3_ws3 * time_interval
+
+    if not sim_time == 0:
+        c1_ws1_o = Decimal(c1_ws1_s) / Decimal(sim_time)
+        c1_ws2_o = Decimal(c1_ws2_s) / Decimal(sim_time)
+        c1_ws3_o = Decimal(c1_ws3_s) / Decimal(sim_time)
+        c2_ws2_o = Decimal(c2_ws2_s) / Decimal(sim_time)
+        c3_ws3_o = Decimal(c3_ws3_s) / Decimal(sim_time)
+
     # handle events, change state
     # "start events" toggle entity state to 1
     # "end events" check if product queue is free, then produce product, then toggle entity state to 0
@@ -218,41 +222,47 @@ while True:
 
     elif event_type == 'ws1':
         ws1 = 1
-        appendToCSV(sim_time,'ws1 started')
-    elif event_type == 'ws1_done':
-        ws1 = 0
         if c1_ws1 > 0:
             c1_ws1 -= 1
-            p1 += 1
-            appendToCSV(sim_time,'ws1 end produce to p1')
+            appendToCSV(sim_time,'ws1 started')
         else:
-            ws1 = 1
+            ws = 0
+    elif event_type == 'ws1_done':
+        ws1 = 0
+        p1 += 1
+        appendToCSV(sim_time,'ws1 end produce to p1')
 
     elif event_type == 'ws2':
         ws2 = 1
-        appendToCSV(sim_time,'ws2 started')
-    elif event_type == 'ws2_done':
-        ws2 = 0
         if c1_ws2 > 0 and c2_ws2 > 0:
             c1_ws2 -= 1
             c2_ws2 -= 1
-            p2 += 1
-            appendToCSV(sim_time,'ws2 end produce to p2')
+            appendToCSV(sim_time,'ws2 started')
         else:
-            ws2 = 1
+            ws2 = 0
+    elif event_type == 'ws2_done':
+        ws2 = 0
+        p2 += 1
+        appendToCSV(sim_time,'ws2 end produce to p2')
 
     elif event_type == 'ws3':
         ws3 = 1
-        appendToCSV(sim_time,'ws3 started')
-    elif event_type == 'ws3_done':
-        ws3 = 0
         if c1_ws3 > 0 and c3_ws3 > 0:
             c1_ws3 -= 1
             c3_ws3 -= 1
-            p3 += 1
-            appendToCSV(sim_time,'ws3 end produce to p3')
+            appendToCSV(sim_time,'ws3 started')
         else:
-            ws3 = 1
+            ws3 = 0
+    elif event_type == 'ws3_done':
+        ws3 = 0
+        p3 += 1
+        appendToCSV(sim_time,'ws3 end produce to p3')
 
-print("simulation ran for: " + str(sim_time) + ' seconds')
-print("products created: p1: " + str(p1) + ' p2: ' + str(p2) + ' p3: ' + str(p3))
+print(f'simulation ran for: ', {sim_time}, ' seconds')
+print(f'products created: p1: ', {p1}, ' p2: ', {p2}, ' p3: ', {p3})
+
+print(f'c1_ws1 average occupancy: {c1_ws1_o}')
+print(f'c1_ws2 average occupancy: {c1_ws2_o}')
+print(f'c2_ws2 average occupancy: {c2_ws2_o}')
+print(f'c1_ws3 average occupancy: {c1_ws3_o}')
+print(f'c3_ws3 average occupancy: {c3_ws3_o}')
