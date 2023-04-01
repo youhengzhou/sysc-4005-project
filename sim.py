@@ -5,7 +5,11 @@ import random
 import os
 
 # CLCG from milestone 2
-def EXPDist_RVG(x1, x2, a1, m1, a2, m2, mean):
+def EXPDist_RVG(x1, x2, mean):
+    a1 = 40014
+    a2 = 40692
+    m1 = 2147483563
+    m2 = 2147483399
     for _ in range(300):
         x1 = (a1 * x1) % m1
         x2 = (a2 * x2) % m2
@@ -16,15 +20,7 @@ def EXPDist_RVG(x1, x2, a1, m1, a2, m2, mean):
             randomNumberForCycle = 2147483562 / 2147483563
         return -1/(1/mean) * math.log(1 - randomNumberForCycle)
 
-# step 1
-# seed1 = 100
-# seed2 = 300
-# a1 = 40014
-# a2 = 40692
-# m1 = 2147483563
-# m2 = 2147483399
-# mean = 10.35791
-# EXPDist_RVG(100, 300, 40014, 2147483563, 40692, 2147483399, 10.35791)
+# EXPDist_RVG(18943, 30084, 10.35791)
 
 # initialize csv files for getting data
 if (os.path.exists('data.csv')):
