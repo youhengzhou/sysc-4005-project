@@ -110,15 +110,15 @@ while True:
         if c1_ws1 <= c1_ws2 and c1_ws1 < 2:
             c1 += 1
             c1_ws1 += 1
-            appendToCSV(sim_time,'ins1 produce to c1_ws1')
+            appendToCSV(sim_time,'ins1 end produced to c1_ws1')
         elif c1_ws2 <= c1_ws3 and c1_ws2 < 2:
             c1 += 1
             c1_ws2 += 1
-            appendToCSV(sim_time,'ins1 produce to c1_ws2')
+            appendToCSV(sim_time,'ins1 end produce to c1_ws2')
         elif c1_ws3 < 2:
             c1 += 1
             c1_ws3 += 1
-            appendToCSV(sim_time,'ins1 produce to c1_ws3')
+            appendToCSV(sim_time,'ins1 end produce to c1_ws3')
         else:
             ins1 = 1
 
@@ -131,6 +131,7 @@ while True:
         if c2_ws2 < 2:
             c2 += 1
             c2_ws2 += 1
+            appendToCSV(sim_time,'ins2 end produce to c2_ws2')
         else:
             ins2 = 1
 
@@ -139,6 +140,7 @@ while True:
         if c3_ws3 < 2:
             c3 += 1
             c3_ws3 += 1
+            appendToCSV(sim_time,'ins2 end produce to c3_ws3')
         else:
             ins2 = 1
     
@@ -151,6 +153,7 @@ while True:
         if c1_ws1 > 0:
             c1_ws1 -= 1
             p1 += 1
+            appendToCSV(sim_time,'ws1 end produce to p1')
         else:
             ws1 = 1
 
@@ -164,6 +167,7 @@ while True:
             c1_ws2 -= 1
             c2_ws2 -= 1
             p2 += 1
+            appendToCSV(sim_time,'ws2 end produce to p2')
         else:
             ws2 = 1
 
@@ -177,6 +181,7 @@ while True:
             c1_ws3 -= 1
             c3_ws3 -= 1
             p3 += 1
+            appendToCSV(sim_time,'ws3 end produce to p3')
         else:
             ws3 = 1
 
