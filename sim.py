@@ -5,25 +5,14 @@ import os
 # initialize csv files for getting data
 if (os.path.exists('data.csv')):
     os.remove('data.csv')
-header = "%s,%s\n" % ('arrival_time (miliseconds)', 'event_type')
+header = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % ('arrival_time (miliseconds)','event_type','c1','c2','c3','ins1','ins2','c1_ws1','c1_ws2','c3_ws3','c2_ws2','c3_ws3','ws1','ws2','ws3','p1','p1','p3')
 with open("data.csv", "a") as f:
-    f.write(header)
-
-if (os.path.exists('buffer_data.csv')):
-    os.remove('buffer_data.csv')
-header = "%s,%s,%s\n" % ('arrival_time (miliseconds)', 'buffer_type', 'buffer_capacity')
-with open("buffer_data.csv", "a") as f:
     f.write(header)
 
 # function for appending to csv file
 def appendToCSV(arrival_time, event_type):
-    new_row = "\n%s,%s\n" % (str(arrival_time), event_type)
+    new_row = "\n%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (str(arrival_time),event_type,str(c1),str(c2),str(c3),str(ins1),str(ins2),str(c1_ws1),str(c1_ws2),str(c1_ws3),str(c2_ws2),str(c3_ws3),str(ws1),str(ws2),str(ws3),str(p1),str(p2),str(p3))
     with open("data.csv", "a") as f:
-        f.write(new_row)
-
-def appendToBufferCSV(arrival_time, buffer_type, buffer_capacity):
-    new_row = "\n%s,%s,%s\n" % (str(arrival_time), buffer_type, str(buffer_capacity))
-    with open("buffer_data.csv", "a") as f:
         f.write(new_row)
 
 # read input files
@@ -33,7 +22,7 @@ def read_dat_files(file_name):
     data = list(filter(None, data))
     output = []
     for i in data:
-        output.append(int(float(i)*1000))
+        output.append(int((float(i)*1000)))
     return output
 
 ins1_input = read_dat_files('input files/servinsp1.dat')
@@ -42,40 +31,6 @@ ins23_input = read_dat_files('input files/servinsp23.dat')
 ws1_input = read_dat_files('input files/ws1.dat')
 ws2_input = read_dat_files('input files/ws2.dat')
 ws3_input = read_dat_files('input files/ws3.dat')
-
-sim_states = {
-    'components': {
-        'c1_used': 0,
-        'c2_used': 0,
-        'c3_used': 0,
-    },
-    'inspectors': {
-        'ins1': ['idle',0],
-        'ins2': ['idle',0],
-        'ins1_blocked_time': 0,
-        'ins2_blocked_time': 0,
-    },
-    'buffers': {
-        'c1_ws1': 0,
-        'c1_ws2': 0,
-        'c1_ws3': 0,
-        'c2_ws2': 0,
-        'c3_ws3': 0,
-    },
-    'workstations': {
-        'ws1': ['idle',0],
-        'ws2': ['idle',0],
-        'ws3': ['idle',0],
-        'ws1_work_time': 0,
-        'ws2_work_time': 0,
-        'ws3_work_time': 0,
-    },
-    'products': {
-        'p1': 0,
-        'p2': 0,
-        'p3': 0
-    },
-}
 
 c1 = 0
 c2 = 0
@@ -141,7 +96,6 @@ while True:
 
     # pop min event from fel
     sim_time, event_type = heapq.heappop(fel)
-    print(str(sim_time) + ' ' + str(event_type))
     print(fel)
 
     # handle events, change state
@@ -149,28 +103,28 @@ while True:
     # "end events" check if product queue is free, then produce product, then toggle entity state to 0
     if event_type == 'ins1':
         ins1 = 1
-        appendToBufferCSV(sim_time,'ins1 started',0)
+        appendToCSV(sim_time,'ins1 started')
 
     elif event_type == 'ins1_done':
         ins1 = 0
         if c1_ws1 <= c1_ws2 and c1_ws1 < 2:
             c1 += 1
             c1_ws1 += 1
-            appendToBufferCSV(sim_time,'ins1 produce to c1_ws1',c1_ws1)
+            appendToCSV(sim_time,'ins1 produce to c1_ws1')
         elif c1_ws2 <= c1_ws3 and c1_ws2 < 2:
             c1 += 1
             c1_ws2 += 1
-            appendToBufferCSV(sim_time,'ins1 produce to c1_ws2',c1_ws2)
+            appendToCSV(sim_time,'ins1 produce to c1_ws2')
         elif c1_ws3 < 2:
             c1 += 1
             c1_ws3 += 1
-            appendToBufferCSV(sim_time,'ins1 produce to c1_ws3',c1_ws3)
+            appendToCSV(sim_time,'ins1 produce to c1_ws3')
         else:
             ins1 = 1
 
     elif event_type == 'ins2':
         ins2 = 1
-        appendToBufferCSV(sim_time,'ins2 started',0)
+        appendToCSV(sim_time,'ins2 started')
         
     elif event_type == 'ins22_done':
         ins2 = 0
@@ -190,7 +144,7 @@ while True:
     
     elif event_type == 'ws1':
         ws1 = 1
-        appendToBufferCSV(sim_time,'ws1 started',0)
+        appendToCSV(sim_time,'ws1 started')
 
     elif event_type == 'ws1_done':
         ws1 = 0
@@ -202,7 +156,7 @@ while True:
 
     elif event_type == 'ws2':
         ws2 = 1
-        appendToBufferCSV(sim_time,'ws2 started',0)
+        appendToCSV(sim_time,'ws2 started')
 
     elif event_type == 'ws2_done':
         ws2 = 0
@@ -215,7 +169,7 @@ while True:
 
     elif event_type == 'ws3':
         ws3 = 1
-        appendToBufferCSV(sim_time,'ws3 started',0)
+        appendToCSV(sim_time,'ws3 started')
 
     elif event_type == 'ws3_done':
         ws3 = 0
