@@ -156,9 +156,11 @@ while True:
     if ws3 == 1 and c1_ws3 > 0 and c3_ws3 > 0 and not any(event[1] == 'ws3_done' for event in fel):
         heapq.heappush(fel,([sim_time + random.choice(ws3_input), 'ws3_done']))
 
-    prev_sim_time = sim_time
-
     print(fel)
+    
+    # find prev_sim_time for average buffer occupancy calculations
+    prev_sim_time = sim_time
+    
     # pop min event from fel
     sim_time, event_type = heapq.heappop(fel)
 
