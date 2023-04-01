@@ -1,491 +1,629 @@
 arrival_time (miliseconds),buffer_type,buffer_capacity
 
-0,c1_ws1,1
+0,ins1 started,0
 
-0,c3_ws3,1
+0,ins2 started,0
 
-7721,c1_ws2,1
+17591,ins2 started,0
 
-9771,c1_ws1,0
+18490,ins2 started,0
 
-37688,c2_ws2,1
+19933,ins1 produce to c1_ws1,1
 
-40660,c1_ws1,1
+19933,ins1 started,0
 
-43423,c1_ws2,0
+19933,ws1 started,0
 
-43423,c2_ws2,0
+20429,ins1 produce to c1_ws2,1
 
-46727,c1_ws1,0
+20429,ins1 started,0
 
-65927,c1_ws1,1
+20429,ws2 started,0
 
-69986,c1_ws1,0
+22727,ins2 started,0
 
-79711,c2_ws2,1
+23264,ins2 started,0
 
-83760,c1_ws1,1
+24472,ins1 produce to c1_ws1,1
 
-84666,c1_ws1,0
+24472,ins1 started,0
 
-90636,c1_ws1,1
+24472,ws1 started,0
 
-92171,c1_ws1,0
+61216,ins1 produce to c1_ws1,1
 
-109172,c3_ws3,2
+61216,ins1 started,0
 
-113010,c1_ws1,1
+61216,ws1 started,0
 
-118544,c1_ws1,0
+69071,ins1 produce to c1_ws1,1
 
-118821,c1_ws1,1
+69071,ins1 started,0
 
-119116,c1_ws1,0
+69071,ws1 started,0
 
-130402,c1_ws1,1
+77996,ins1 produce to c1_ws1,1
 
-132336,c1_ws2,1
+77996,ins1 started,0
 
-133827,c1_ws1,0
+77996,ws1 started,0
 
-136784,c1_ws2,0
+87535,ins1 produce to c1_ws1,1
 
-136784,c2_ws2,0
+87535,ins1 started,0
 
-139919,c1_ws1,1
+87535,ws1 started,0
 
-143081,c1_ws2,1
+101408,ins1 produce to c1_ws1,1
 
-144746,c1_ws1,0
+101408,ins1 started,0
 
-151240,c1_ws1,1
+101408,ws1 started,0
 
-152780,c1_ws1,0
+107415,ins1 produce to c1_ws2,1
 
-168114,c1_ws1,1
+107415,ins1 started,0
 
-175218,c1_ws1,0
+107415,ws2 started,0
 
-176448,c1_ws1,1
+107971,ins1 produce to c1_ws1,2
 
-185962,c1_ws1,0
+107971,ins1 started,0
 
-186491,c1_ws1,1
+111681,ws1 started,0
 
-188712,c1_ws1,0
+120311,ins1 produce to c1_ws1,1
 
-189997,c1_ws1,1
+120311,ins1 started,0
 
-192428,c1_ws1,2
+120311,ws1 started,0
 
-196939,c1_ws1,1
+130583,ins1 produce to c1_ws1,1
 
-199643,c1_ws1,0
+130583,ins1 started,0
 
-200229,c1_ws1,1
+130583,ws1 started,0
 
-200794,c1_ws1,0
+145064,ins1 produce to c1_ws1,1
 
-205118,c1_ws1,1
+145064,ins1 started,0
 
-208995,c1_ws1,2
+145064,ws1 started,0
 
-211789,c1_ws1,1
+155224,ins1 produce to c1_ws1,1
 
-211854,c1_ws1,2
+155224,ins1 started,0
 
-221671,c1_ws1,1
+155224,ws1 started,0
 
-225971,c1_ws1,2
+172499,ins1 produce to c1_ws1,1
 
-226092,c1_ws3,1
+172499,ins1 started,0
 
-232496,c1_ws1,1
+172499,ws1 started,0
 
-232638,c1_ws1,2
+179594,ins1 produce to c1_ws2,1
 
-237089,c1_ws3,0
+179594,ins1 started,0
 
-237089,c3_ws3,1
+179594,ws2 started,0
 
-237089,c3_ws3,2
+181126,ins1 produce to c1_ws1,1
 
-237866,c1_ws1,1
+181126,ins1 started,0
 
-238689,c1_ws1,2
+181126,ws1 started,0
 
-239498,c1_ws1,1
+208199,ins1 produce to c1_ws1,1
 
-240016,c1_ws1,0
+208199,ins1 started,0
 
-249479,c1_ws1,1
+208199,ws1 started,0
 
-250841,c1_ws1,0
+212457,ins1 produce to c1_ws1,1
 
-263382,c1_ws1,1
+212457,ins1 started,0
 
-267916,c1_ws1,2
+212457,ws1 started,0
 
-270384,c1_ws1,1
+220452,ins1 produce to c1_ws2,1
 
-272558,c1_ws1,0
+220452,ins1 started,0
 
-295899,c1_ws1,1
+244044,ins1 produce to c1_ws1,1
 
-296020,c1_ws1,2
+244044,ins1 started,0
 
-300192,c1_ws1,1
+244044,ws1 started,0
 
-302464,c1_ws1,0
+270220,ins1 produce to c1_ws1,1
 
-323093,c1_ws1,1
+270220,ins1 started,0
 
-324900,c1_ws1,0
+270220,ws1 started,0
 
-331819,c1_ws1,1
+276775,ins1 produce to c1_ws1,1
 
-335672,c1_ws1,2
+276775,ins1 started,0
 
-339930,c1_ws3,1
+276775,ws1 started,0
 
-341141,c1_ws3,0
+281309,ins1 produce to c1_ws1,2
 
-341141,c3_ws3,1
+281309,ins1 started,0
 
-341141,c3_ws3,2
+283900,ins1 produce to c1_ws3,1
 
-343322,c1_ws3,1
+283900,ins1 started,0
 
-345480,c1_ws1,1
+283900,ws3 started,0
 
-347157,c1_ws1,2
+286759,ins1 produce to c1_ws2,2
 
-348397,c1_ws2,2
+286759,ins1 started,0
 
-348447,c1_ws3,0
+289664,ws1 started,0
 
-348447,c3_ws3,1
+292321,ins1 produce to c1_ws1,1
 
-348529,c1_ws1,1
+292321,ins1 started,0
 
-349101,c2_ws2,1
+292321,ws1 started,0
 
-353735,c1_ws1,0
+292655,ins1 produce to c1_ws1,1
 
-355488,c2_ws2,2
+292655,ins1 started,0
 
-361599,c1_ws1,1
+292655,ws1 started,0
 
-368286,c3_ws3,2
+313273,ins1 produce to c1_ws1,1
 
-370035,c1_ws1,0
+313273,ins1 started,0
 
-374470,c1_ws2,1
+313273,ws1 started,0
 
-374470,c2_ws2,1
+319417,ins1 produce to c1_ws1,1
 
-379805,c2_ws2,2
+319417,ins1 started,0
 
-380774,c1_ws1,1
+319417,ws1 started,0
 
-380845,c1_ws1,0
+322410,ins1 produce to c1_ws1,2
 
-389699,c1_ws1,1
+322410,ins1 started,0
 
-390117,c1_ws1,2
+325916,ins1 produce to c1_ws3,1
 
-390352,c1_ws2,0
+325916,ins1 started,0
 
-390352,c2_ws2,1
+325916,ws3 started,0
 
-391621,c1_ws2,1
+326311,ws1 started,0
 
-392278,c1_ws2,0
+330466,ins2 started,0
 
-392278,c2_ws2,0
+340098,ins1 produce to c1_ws1,2
 
-394983,c1_ws1,1
+340098,ins1 started,0
 
-396974,c1_ws1,0
+340119,ins2 started,0
 
-404149,c1_ws1,1
+340119,ws2 started,0
 
-405484,c1_ws1,0
+342833,ws1 started,0
 
-417270,c1_ws1,1
+346144,ins2 started,0
 
-417600,c1_ws1,0
+346144,ws2 started,0
 
-428954,c1_ws1,1
+354955,ins1 produce to c1_ws1,1
 
-430166,c1_ws1,0
+354955,ins1 started,0
 
-454242,c1_ws1,1
+354955,ws1 started,0
 
-454458,c1_ws1,0
+362538,ins1 produce to c1_ws1,1
 
-458653,c1_ws1,1
+362538,ins1 started,0
 
-461815,c1_ws2,1
+362538,ws1 started,0
 
-463352,c1_ws1,0
+413754,ins1 produce to c1_ws1,1
 
-470297,c1_ws1,1
+413754,ins1 started,0
 
-471946,c1_ws1,0
+413754,ws1 started,0
 
-488790,c1_ws1,1
+426094,ins1 produce to c1_ws1,1
 
-493201,c1_ws1,2
+426094,ins1 started,0
 
-499534,c1_ws1,1
+426094,ws1 started,0
 
-500741,c1_ws1,2
+439014,ins1 produce to c1_ws1,1
 
-502442,c1_ws1,1
+439014,ins1 started,0
 
-503477,c1_ws1,0
+439014,ws1 started,0
 
-508736,c1_ws1,1
+461468,ins1 produce to c1_ws1,1
 
-509387,c1_ws1,2
+461468,ins1 started,0
 
-509873,c1_ws3,1
+461468,ws1 started,0
 
-510215,c1_ws1,1
+470150,ins1 produce to c1_ws1,1
 
-510659,c1_ws1,0
+470150,ins1 started,0
 
-530496,c1_ws1,1
+470150,ws1 started,0
 
-531129,c1_ws3,0
+473291,ins1 produce to c1_ws1,1
 
-531129,c3_ws3,1
+473291,ins1 started,0
 
-531129,c3_ws3,2
+473291,ws1 started,0
 
-533568,c1_ws1,0
+482830,ins1 produce to c1_ws1,1
 
-534094,c2_ws2,1
+482830,ins1 started,0
 
-535076,c1_ws1,1
+482830,ws1 started,0
 
-535103,c1_ws1,0
+495170,ins1 produce to c1_ws1,1
 
-538469,c1_ws2,0
+495170,ins1 started,0
 
-538469,c2_ws2,0
+495170,ws1 started,0
 
-538895,c1_ws1,1
+502265,ins1 produce to c1_ws1,1
 
-540871,c1_ws1,0
+502265,ins1 started,0
 
-545494,c1_ws1,1
+502265,ws1 started,0
 
-546344,c1_ws1,0
+506308,ins1 produce to c1_ws1,1
 
-548120,c2_ws2,1
+506308,ins1 started,0
 
-568087,c2_ws2,2
+506308,ws1 started,0
 
-583222,c1_ws1,1
+509181,ins1 produce to c1_ws1,1
 
-585183,c1_ws1,0
+509181,ins1 started,0
 
-588111,c1_ws1,1
+509181,ws1 started,0
 
-588232,c1_ws1,0
+516276,ins1 produce to c1_ws2,1
 
-595966,c1_ws1,1
+516276,ins1 started,0
 
-598196,c1_ws1,0
+516276,ws2 started,0
 
-602915,c1_ws1,1
+527941,ins1 produce to c1_ws1,1
 
-605472,c1_ws1,0
+527941,ins1 started,0
 
-616510,c1_ws1,1
+527941,ws1 started,0
 
-616765,c1_ws1,0
+529875,ins1 produce to c1_ws1,1
 
-621186,c1_ws1,1
+529875,ins1 started,0
 
-622280,c1_ws1,0
+529875,ws1 started,0
 
-625766,c1_ws1,1
+531124,ins1 produce to c1_ws2,1
 
-629025,c1_ws1,0
+531124,ins1 started,0
 
-643599,c1_ws1,1
+531124,ws2 started,0
 
-650929,c1_ws1,0
+541530,ins1 produce to c1_ws1,1
 
-652657,c1_ws1,1
+541530,ins1 started,0
 
-661754,c1_ws1,0
+541530,ws1 started,0
 
-681950,c1_ws1,1
+546206,ins1 produce to c1_ws2,1
 
-684950,c1_ws2,1
+546206,ins1 started,0
 
-688112,c1_ws1,2
+569445,ins1 produce to c1_ws1,1
 
-691823,c1_ws2,0
+569445,ins1 started,0
 
-691823,c2_ws2,1
+569445,ws1 started,0
 
-698261,c1_ws1,1
+574178,ins1 produce to c1_ws1,1
 
-704631,c1_ws2,1
+574178,ins1 started,0
 
-708450,c1_ws1,2
+574178,ws1 started,0
 
-712575,c1_ws3,1
+581761,ins1 produce to c1_ws1,1
 
-713457,c1_ws1,1
+581761,ins1 started,0
 
-714246,c1_ws1,0
+581761,ws1 started,0
 
-715790,c1_ws3,0
+591426,ins1 produce to c1_ws1,1
 
-715790,c3_ws3,1
+591426,ins1 started,0
 
-715790,c3_ws3,2
+591426,ws1 started,0
 
-719441,c1_ws1,1
+596159,ins1 produce to c1_ws1,1
 
-724028,c1_ws2,0
+596159,ins1 started,0
 
-724028,c2_ws2,0
+596159,ws1 started,0
 
-724990,c1_ws1,0
+608991,ins1 produce to c1_ws1,1
 
-732116,c1_ws1,1
+608991,ins1 started,0
 
-732767,c1_ws2,1
+608991,ws1 started,0
 
-733846,c1_ws1,0
+609731,ins1 produce to c1_ws1,2
 
-742736,c1_ws1,1
+609731,ins1 started,0
 
-743430,c1_ws1,2
+612310,ws1 started,0
 
-749568,c1_ws1,1
+623604,ins1 produce to c1_ws1,1
 
-759251,c1_ws1,2
+623604,ins1 started,0
 
-759450,c1_ws1,1
+623604,ws1 started,0
 
-761099,c1_ws1,0
+626407,ins1 produce to c1_ws1,2
 
-766468,c1_ws1,1
+626407,ins1 started,0
 
-768676,c1_ws1,2
+631831,ws1 started,0
 
-775067,c1_ws1,1
+642228,ins1 produce to c1_ws1,1
 
-776397,c1_ws1,2
+642228,ins1 started,0
 
-783940,c1_ws1,1
+642228,ws1 started,0
 
-788326,c1_ws1,2
+642586,ins1 produce to c1_ws1,2
 
-789308,c1_ws1,1
+642586,ins1 started,0
 
-792810,c1_ws1,2
+645017,ins1 produce to c1_ws3,1
 
-793547,c1_ws1,1
+645017,ins1 started,0
 
-794166,c1_ws1,0
+645017,ws3 started,0
 
-801069,c1_ws1,1
+645613,ws1 started,0
 
-804093,c1_ws1,0
+658896,ins2 started,0
 
-810119,c1_ws1,1
+658896,ws2 started,0
 
-814020,c1_ws1,0
+659498,ins1 produce to c1_ws1,1
 
-820386,c1_ws1,1
+659498,ins1 started,0
 
-822908,c1_ws1,0
+659498,ws1 started,0
 
-825818,c1_ws1,1
+659669,ins2 started,0
 
-832266,c1_ws1,2
+664624,ins1 produce to c1_ws2,1
 
-833864,c1_ws1,1
+664624,ins1 started,0
 
-836038,c1_ws1,0
+664624,ws2 started,0
 
-843379,c1_ws1,1
+664757,ins2 started,0
 
-846863,c1_ws1,0
+683799,ins1 produce to c1_ws1,1
 
-856211,c1_ws1,1
+683799,ins1 started,0
 
-856634,c1_ws1,0
+683799,ws1 started,0
 
-859383,c1_ws1,1
+687901,ins1 produce to c1_ws1,1
 
-860631,c1_ws1,2
+687901,ins1 started,0
 
-862525,c1_ws1,1
+687901,ws1 started,0
 
-869673,c1_ws1,0
+703324,ins1 produce to c1_ws2,1
 
-873752,c1_ws1,1
+703324,ins1 started,0
 
-880862,c1_ws1,2
+703324,ws2 started,0
 
-883334,c1_ws1,1
+706830,ins1 produce to c1_ws1,1
 
-887281,c1_ws1,0
+706830,ins1 started,0
 
-891129,c1_ws1,1
+706830,ws1 started,0
 
-894948,c1_ws1,2
+708570,ins1 produce to c1_ws2,1
 
-899527,c1_ws1,1
+708570,ins1 started,0
 
-899743,c1_ws1,0
+708570,ws2 started,0
 
-907476,c1_ws1,1
+728173,ins1 produce to c1_ws1,1
 
-908879,c1_ws1,0
+728173,ins1 started,0
 
-931931,c1_ws1,1
+728173,ws1 started,0
 
-935997,c1_ws1,2
+733585,ins1 produce to c1_ws1,1
 
-936416,c1_ws1,1
+733585,ins1 started,0
 
-941508,c1_ws1,0
+733585,ws1 started,0
 
-949900,c1_ws1,1
+745925,ins1 produce to c1_ws1,1
 
-950881,c1_ws1,2
+745925,ins1 started,0
 
-950956,c1_ws1,1
+745925,ws1 started,0
 
-953447,c1_ws1,0
+765566,ins1 produce to c1_ws1,1
 
-966702,c1_ws1,1
+765566,ins1 started,0
 
-968836,c1_ws1,0
+765566,ws1 started,0
 
-979508,c1_ws1,1
+770692,ins1 produce to c1_ws1,1
 
-982036,c1_ws1,0
+770692,ins1 started,0
 
-985956,c1_ws1,1
+770692,ws1 started,0
 
-989607,c1_ws1,2
+773854,ins1 produce to c1_ws1,1
 
-991799,c1_ws1,1
+773854,ins1 started,0
 
-995609,c1_ws1,2
+773854,ws1 started,0
 
-998636,c1_ws1,1
+787971,ins1 produce to c1_ws1,1
 
-1000735,c1_ws1,2
+787971,ins1 started,0
+
+787971,ws1 started,0
+
+790522,ins1 produce to c1_ws1,1
+
+790522,ins1 started,0
+
+790522,ws1 started,0
+
+802266,ins1 produce to c1_ws2,1
+
+802266,ins1 started,0
+
+820884,ins1 produce to c1_ws1,1
+
+820884,ins1 started,0
+
+820884,ws1 started,0
+
+826316,ins1 produce to c1_ws1,1
+
+826316,ins1 started,0
+
+826316,ws1 started,0
+
+829342,ins1 produce to c1_ws1,1
+
+829342,ins1 started,0
+
+829342,ws1 started,0
+
+837848,ins1 produce to c1_ws1,1
+
+837848,ins1 started,0
+
+837848,ws1 started,0
+
+844394,ins1 produce to c1_ws1,1
+
+844394,ins1 started,0
+
+844394,ws1 started,0
+
+851343,ins1 produce to c1_ws1,2
+
+851343,ins1 started,0
+
+853282,ws1 started,0
+
+855104,ins1 produce to c1_ws1,2
+
+855104,ins1 started,0
+
+860284,ws1 started,0
+
+862644,ins1 produce to c1_ws1,1
+
+862644,ins1 started,0
+
+862644,ws1 started,0
+
+872068,ins1 produce to c1_ws1,1
+
+872068,ins1 started,0
+
+872068,ws1 started,0
+
+877172,ins1 produce to c1_ws1,2
+
+877172,ins1 started,0
+
+888236,ws1 started,0
+
+902460,ins1 produce to c1_ws1,2
+
+902460,ins1 started,0
+
+906192,ws1 started,0
+
+915662,ins1 produce to c1_ws1,1
+
+915662,ins1 started,0
+
+915662,ws1 started,0
+
+929844,ins1 produce to c1_ws1,1
+
+929844,ins1 started,0
+
+929844,ws1 started,0
+
+933495,ins1 produce to c1_ws1,1
+
+933495,ins1 started,0
+
+933495,ws1 started,0
+
+943241,ins1 produce to c1_ws1,1
+
+943241,ins1 started,0
+
+943241,ws1 started,0
+
+953401,ins1 produce to c1_ws1,1
+
+953401,ins1 started,0
+
+953401,ws1 started,0
+
+956563,ins1 produce to c1_ws1,1
+
+956563,ins1 started,0
+
+956563,ws1 started,0
+
+965095,ins1 produce to c1_ws1,2
+
+965095,ins1 started,0
+
+972874,ws1 started,0
+
+986322,ins1 produce to c1_ws1,1
+
+986322,ins1 started,0
+
+986322,ws1 started,0
+
+987571,ins1 produce to c1_ws1,2
+
+987571,ins1 started,0
+
+988334,ws1 started,0
+
+996253,ins1 produce to c1_ws1,1
+
+996253,ins1 started,0
+
+996253,ws1 started,0

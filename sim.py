@@ -1,7 +1,8 @@
+import heapq
 import random
 import os
 
-# initialize csv file for getting data
+# initialize csv files for getting data
 if (os.path.exists('data.csv')):
     os.remove('data.csv')
 header = "%s,%s\n" % ('arrival_time (miliseconds)', 'event_type')
@@ -76,181 +77,162 @@ sim_states = {
     },
 }
 
-fel = []
+c1 = 0
+c2 = 0
+c3 = 0
 
-fel.append([0, 'ins1'])
-fel.append([0, 'ins2'])
+ins1 = 0
+ins2 = 0
+
+c1_ws1 = 0
+c1_ws2 = 0
+c1_ws3 = 0
+c2_ws2 = 0
+c3_ws3 = 0
+
+ws1 = 0
+ws2 = 0
+ws3 = 0
+
+p1 = 0
+p2 = 0
+p3 = 0
 
 sim_time = 0
-
-def handle_event(event_type, arrival_time, fel):
-    global sim_states
-
-    if event_type == 'ins1':
-        return handle_ins1(arrival_time, fel)
-    elif event_type == 'ins2':
-        return handle_ins2(arrival_time, fel)
-    elif event_type == 'ws1':
-        return handle_ws1(arrival_time, fel)
-    elif event_type == 'ws2':
-        return handle_ws2(arrival_time, fel)
-    elif event_type == 'ws3':
-        return handle_ws3(arrival_time, fel)
-    else:
-        return fel
-
-def handle_ins1(arrival_time, fel):
-    global sim_states
-
-    if sim_states['buffers']['c1_ws1'] <= sim_states['buffers']['c1_ws2'] and sim_states['buffers']['c1_ws1'] < 2:
-        sim_states['buffers']['c1_ws1'] += 1
-        sim_states['components']['c1_used'] += 1
-        appendToBufferCSV(arrival_time,'c1_ws1',sim_states['buffers']['c1_ws1'])
-        fel.append([arrival_time + random.choice(ins1_input), 'ins1'])
-    elif sim_states['buffers']['c1_ws2'] <= sim_states['buffers']['c1_ws3'] and sim_states['buffers']['c1_ws2'] < 2:
-        sim_states['buffers']['c1_ws2'] += 1
-        sim_states['components']['c1_used'] += 1
-        appendToBufferCSV(arrival_time,'c1_ws2',sim_states['buffers']['c1_ws2'])
-        fel.append([arrival_time + random.choice(ins1_input), 'ins1'])
-    elif sim_states['buffers']['c1_ws3'] < 2:
-        sim_states['buffers']['c1_ws3'] += 1
-        sim_states['components']['c1_used'] += 1
-        appendToBufferCSV(arrival_time,'c1_ws3',sim_states['buffers']['c1_ws3'])
-        fel.append([arrival_time + random.choice(ins1_input), 'ins1'])
-    else:
-        # inspectors state 1 is blocked, 0 is free
-        print("inspector1 blocked")
-        sim_states['inspectors']['ins1'] = [1,arrival_time]
-    return fel
-
-def handle_ins2(arrival_time, fel):
-    global sim_states
-
-    if random.randint(0,1) == 0:
-        if sim_states['buffers']['c2_ws2'] < 2:
-            sim_states['buffers']['c2_ws2'] += 1
-            sim_states['components']['c2_used'] += 1
-            appendToBufferCSV(arrival_time,'c2_ws2',sim_states['buffers']['c2_ws2'])
-            fel.append([arrival_time + random.choice(ins22_input), 'ins2'])
-        else:
-            # if all buffers are full: start recording timer until any of the buffers are not at full capacity
-            print("inspector2 blocked from buffer 2")
-            sim_states['inspectors']['ins2'] = [2,arrival_time]
-    else:
-        if sim_states['buffers']['c3_ws3'] < 2:
-            sim_states['buffers']['c3_ws3'] += 1
-            sim_states['components']['c3_used'] += 1
-            appendToBufferCSV(arrival_time,'c3_ws3',sim_states['buffers']['c3_ws3'])
-            fel.append([arrival_time + random.choice(ins23_input), 'ins2'])
-        else:
-            # if all buffers are full: start recording timer until any of the buffers are not at full capacity
-            print("inspector2 blocked from buffer 3")
-            sim_states['inspectors']['ins2'] = [3,arrival_time]
-    return fel
-
-def handle_ws1(arrival_time, fel):
-    global sim_states
-
-    if sim_states['buffers']['c1_ws1'] > 0:
-            sim_states['buffers']['c1_ws1'] -= 1
-            # sim_states['components']['c1_used'] -= 1
-            appendToBufferCSV(arrival_time,'c1_ws1',sim_states['buffers']['c1_ws1'])
-            sim_states['products']['p1'] += 1
-            if sim_states['inspectors']['ins1'][0] == 1:
-                n_time = arrival_time - sim_states['inspectors']['ins1'][1]
-                sim_states['inspectors']['ins1_blocked_time'] += n_time
-                print('inspector1 blocked for ' + str(n_time))
-                sim_states['inspectors']['ins1'] = [0,arrival_time]
-            n_time = random.choice(ws1_input)
-            sim_states['workstations']['ws1_work_time'] += n_time
-            fel.append([arrival_time + n_time, 'ws1'])
-    return fel
-
-def handle_ws2(arrival_time, fel):
-    global sim_states
-
-    if sim_states['buffers']['c1_ws2'] > 0 and sim_states['buffers']['c2_ws2'] > 0:
-            sim_states['buffers']['c1_ws2'] -= 1
-            sim_states['buffers']['c2_ws2'] -= 1
-            # sim_states['components']['c1_used'] -= 1
-            # sim_states['c2_used'] -= 1
-            appendToBufferCSV(arrival_time,'c1_ws2',sim_states['buffers']['c1_ws2'])
-            appendToBufferCSV(arrival_time,'c2_ws2',sim_states['buffers']['c2_ws2'])
-            sim_states['products']['p2'] += 1
-            if sim_states['inspectors']['ins1'][0] == 1:
-                n_time = arrival_time - sim_states['inspectors']['ins1'][1]
-                sim_states['inspectors']['ins1_blocked_time'] += n_time
-                print('inspector1 blocked for ' + str(n_time))
-                sim_states['inspectors']['ins1'] = [0,arrival_time]
-            if sim_states['inspectors']['ins2'][0] == 2:
-                n_time = arrival_time - sim_states['inspectors']['ins2'][1]
-                sim_states['inspectors']['ins2_blocked_time'] += n_time
-                print('inspector2 sadf dsaf  blocked for ' + str(n_time))
-                sim_states['inspectors']['ins2'] = [0,arrival_time]
-            n_time = random.choice(ws2_input)
-            sim_states['workstations']['ws2_work_time'] += n_time
-            fel.append([arrival_time + n_time, 'ws2'])
-    return fel
-
-def handle_ws3(arrival_time, fel):
-    global sim_states
-
-    if sim_states['buffers']['c1_ws3'] > 0 and sim_states['buffers']['c3_ws3'] > 0:
-            sim_states['buffers']['c1_ws3'] -= 1
-            sim_states['buffers']['c3_ws3'] -= 1
-            # sim_states['components']['c1_used'] -= 1
-            # sim_states['c3_used'] -= 1
-            appendToBufferCSV(arrival_time,'c1_ws3',sim_states['buffers']['c1_ws3'])
-            appendToBufferCSV(arrival_time,'c3_ws3',sim_states['buffers']['c3_ws3'])
-            sim_states['products']['p3'] += 1
-            if sim_states['inspectors']['ins1'][0] == 1:
-                n_time = arrival_time - sim_states['inspectors']['ins1'][1]
-                sim_states['inspectors']['ins1_blocked_time'] += n_time
-                print('inspector1 blocked for ' + str(n_time))
-                sim_states['inspectors']['ins1'] = [0,arrival_time]
-            if sim_states['inspectors']['ins2'][0] == 3:
-                n_time = arrival_time - sim_states['inspectors']['ins2'][1]
-                sim_states['inspectors']['ins2_blocked_time'] += n_time
-                print('inspector2 afdssafd blocked for ' + str(n_time))
-                sim_states['inspectors']['ins2'] = [0,arrival_time]
-            n_time = random.choice(ws3_input)
-            sim_states['workstations']['ws3_work_time'] += n_time
-            fel.append([arrival_time + n_time, 'ws3'])
-    return fel
+fel = []
+fel.append([0, 'ins1'])
+fel.append([0, 'ins2'])
+heapq.heapify(fel)
 
 while True:
-    if len(fel) <= 0 or sim_time > 1000000:
+    if sim_time > 1000000:
         break
     
-    fel.sort()
-    sim_time, event_type = fel.pop(0)
+    # check states, create events to be handled
+    # if entity is 0, create start event
+    # if entity is 1, create end event
+    if ins1 == 0 and (c1_ws1 < 2 or c1_ws2 < 2 or c1_ws3 < 2) and not any(event[1] == 'ins1' for event in fel):
+        heapq.heappush(fel,([sim_time, 'ins1']))
+    if ins1 == 1 and (c1_ws1 < 2 or c1_ws2 < 2 or c1_ws3 < 2) and not any(event[1] == 'ins1_done' for event in fel):
+        heapq.heappush(fel,([sim_time + random.choice(ins1_input), 'ins1_done']))
+    
+    if ins2 == 0 and (c2_ws2 < 0 or c3_ws3 < 2) and not any(event[1] == 'ins2' for event in fel):
+        heapq.heappush(fel,([sim_time, 'ins2']))
+    if ins2 == 1 and (c2_ws2 < 0 or c3_ws3 < 2) and not any(event[1] == 'ins2_done' for event in fel):
+        if random.randint(0,1) == 0:
+            heapq.heappush(fel,([sim_time + random.choice(ins22_input), 'ins22_done']))
+        else:
+            heapq.heappush(fel,([sim_time + random.choice(ins23_input), 'ins23_done']))
 
+    if ws1 == 0 and c1_ws1 > 0 and not any(event[1] == 'ws1' for event in fel):
+        heapq.heappush(fel,([sim_time, 'ws1']))
+    if ws1 == 1 and c1_ws1 > 0 and not any(event[1] == 'ws1_done' for event in fel):
+        heapq.heappush(fel,([sim_time + random.choice(ws1_input), 'ws1_done']))
+    
+    if ws2 == 0 and c1_ws2 > 0 and c2_ws2 > 0 and not any(event[1] == 'ws2' for event in fel):
+        heapq.heappush(fel,([sim_time, 'ws2']))
+    if ws2 == 1 and c1_ws2 > 0 and c2_ws2 > 0 and not any(event[1] == 'ws2_done' for event in fel):
+        heapq.heappush(fel,([sim_time + random.choice(ws2_input), 'ws2_done']))
+    
+    if ws3 == 0 and c1_ws3 > 0 and c3_ws3 > 0 and not any(event[1] == 'ws3' for event in fel):
+        heapq.heappush(fel,([sim_time, 'ws3']))
+    if ws3 == 1 and c1_ws3 > 0 and c3_ws3 > 0 and not any(event[1] == 'ws3_done' for event in fel):
+        heapq.heappush(fel,([sim_time + random.choice(ws3_input), 'ws3_done']))
+
+    # pop min event from fel
+    sim_time, event_type = heapq.heappop(fel)
+    print(str(sim_time) + ' ' + str(event_type))
     print(fel)
-    # print(sim_states['buffers'])
 
-    appendToCSV(sim_time, event_type)
+    # handle events, change state
+    # "start events" toggle entity state to 1
+    # "end events" check if product queue is free, then produce product, then toggle entity state to 0
+    if event_type == 'ins1':
+        ins1 = 1
+        appendToBufferCSV(sim_time,'ins1 started',0)
 
-    fel = handle_event(event_type, sim_time, fel)
+    elif event_type == 'ins1_done':
+        ins1 = 0
+        if c1_ws1 <= c1_ws2 and c1_ws1 < 2:
+            c1 += 1
+            c1_ws1 += 1
+            appendToBufferCSV(sim_time,'ins1 produce to c1_ws1',c1_ws1)
+        elif c1_ws2 <= c1_ws3 and c1_ws2 < 2:
+            c1 += 1
+            c1_ws2 += 1
+            appendToBufferCSV(sim_time,'ins1 produce to c1_ws2',c1_ws2)
+        elif c1_ws3 < 2:
+            c1 += 1
+            c1_ws3 += 1
+            appendToBufferCSV(sim_time,'ins1 produce to c1_ws3',c1_ws3)
+        else:
+            ins1 = 1
 
-    if (sim_states['buffers']['c1_ws1'] < 2 or sim_states['buffers']['c1_ws2'] < 2 or sim_states['buffers']['c1_ws3'] < 2) and not any(event[1] == 'ins1' for event in fel):
-        fel.append([sim_time, 'ins1'])
-    if (sim_states['buffers']['c2_ws2'] < 0 or sim_states['buffers']['c3_ws3'] < 2) and not any(event[1] == 'ins2' for event in fel):
-        fel.append([sim_time, 'ins2'])
+    elif event_type == 'ins2':
+        ins2 = 1
+        appendToBufferCSV(sim_time,'ins2 started',0)
+        
+    elif event_type == 'ins22_done':
+        ins2 = 0
+        if c2_ws2 < 2:
+            c2 += 1
+            c2_ws2 += 1
+        else:
+            ins2 = 1
 
-    if sim_states['buffers']['c1_ws1'] > 0 and not any(event[1] == 'ws1' for event in fel):
-        fel.append([sim_time + random.choice(ws1_input), 'ws1'])
-    if sim_states['buffers']['c1_ws2'] > 0 and sim_states['buffers']['c2_ws2'] > 0 and not any(event[1] == 'ws2' for event in fel):
-        fel.append([sim_time + random.choice(ws2_input), 'ws2'])
-    if sim_states['buffers']['c1_ws3'] > 0 and sim_states['buffers']['c3_ws3'] > 0 and not any(event[1] == 'ws3' for event in fel):
-        fel.append([sim_time + random.choice(ws3_input), 'ws3'])
+    elif event_type == 'ins23_done':
+        ins2 = 0
+        if c3_ws3 < 2:
+            c3 += 1
+            c3_ws3 += 1
+        else:
+            ins2 = 1
+    
+    elif event_type == 'ws1':
+        ws1 = 1
+        appendToBufferCSV(sim_time,'ws1 started',0)
+
+    elif event_type == 'ws1_done':
+        ws1 = 0
+        if c1_ws1 > 0:
+            c1_ws1 -= 1
+            p1 += 1
+        else:
+            ws1 = 1
+
+    elif event_type == 'ws2':
+        ws2 = 1
+        appendToBufferCSV(sim_time,'ws2 started',0)
+
+    elif event_type == 'ws2_done':
+        ws2 = 0
+        if c1_ws2 > 0 and c2_ws2 > 0:
+            c1_ws2 -= 1
+            c2_ws2 -= 1
+            p2 += 1
+        else:
+            ws2 = 1
+
+    elif event_type == 'ws3':
+        ws3 = 1
+        appendToBufferCSV(sim_time,'ws3 started',0)
+
+    elif event_type == 'ws3_done':
+        ws3 = 0
+        if c1_ws3 > 0 and c3_ws3 > 0:
+            c1_ws3 -= 1
+            c3_ws3 -= 1
+            p3 += 1
+        else:
+            ws3 = 1
 
 print('simulation end results: ')
 print("simulation ran for: " + str(sim_time))
 print("buffers: ")
-print(sim_states['buffers'])
+print(c1_ws1)
+print(c1_ws2)
+print(c1_ws3)
 print("products created: ")
-print(sim_states['products'])
-print("Components Used: 1: " + str(sim_states['components']['c1_used']) + " , 2: " + str(sim_states['components']['c2_used'])  + " , 3: " + str(sim_states['components']['c3_used']))
-print("Inspector Blocked Times: 1: " + str(sim_states['inspectors']['ins1_blocked_time']) + " , 2: " + str(sim_states['inspectors']['ins2_blocked_time']))
-print("Workstation Active Times: 1: " + str(sim_states['workstations']['ws1_work_time']) + " , 2: " + str(sim_states['workstations']['ws2_work_time'])  + " , 3: " + str(sim_states['workstations']['ws3_work_time']))
-
+print(p1)
+print(p2)
+print(p3)
