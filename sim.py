@@ -180,19 +180,17 @@ while True:
     # "end events" check if product queue is free, then produce product, then toggle entity state to 0
     if event_type == 'ins1':
         ins1 = 1
+        c1 += 1
         appendToCSV(sim_time,'ins1 started')
     elif event_type == 'ins1_done':
         ins1 = 0
         if c1_ws1 <= c1_ws2 and c1_ws1 < 2:
-            c1 += 1
             c1_ws1 += 1
-            appendToCSV(sim_time,'ins1 end produced to c1_ws1')
+            appendToCSV(sim_time,'ins1 end produce to c1_ws1')
         elif c1_ws2 <= c1_ws3 and c1_ws2 < 2:
-            c1 += 1
             c1_ws2 += 1
             appendToCSV(sim_time,'ins1 end produce to c1_ws2')
         elif c1_ws3 < 2:
-            c1 += 1
             c1_ws3 += 1
             appendToCSV(sim_time,'ins1 end produce to c1_ws3')
         else:
