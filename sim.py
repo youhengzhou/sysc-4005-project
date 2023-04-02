@@ -27,7 +27,7 @@ def EXPDist_RVG(mean):
 # initialize csv files for getting data
 if (os.path.exists('data.csv')):
     os.remove('data.csv')
-header = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % ('arrival_time (minutes)','event_type','p1 throughput','p2 throughput','p3 throughput','ins1 blocked time','ins2 blocked time','ws1 idle time','ws2 idle time','ws3 idle time','c1_ws1 occp','c1_ws2 occp','c1_ws3 occp','c2_ws2 occp','c3_ws3 occp','c1 used','c2 used','c3 used','ins1 state','ins2 state','c1_ws1 capacity','c1_ws2 capacity','c3_ws3 capacity','c2_ws2 capacity','c3_ws3 capacity','ws1 state','ws2 state','ws3 state','p1 produced','p1 produced','p3 produced')
+header = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % ('arrival_time (minutes)','event_type','p1 throughput','p2 throughput','p3 throughput','ins1 blocked time','ins2 blocked time','ws1 idle time','ws2 idle time','ws3 idle time','c1_ws1 occp','c1_ws2 occp','c1_ws3 occp','c2_ws2 occp','c3_ws3 occp','c1 used','c2 used','c3 used','ins1 state','ins2 state','c1_ws1 capacity','c1_ws2 capacity','c3_ws3 capacity','c2_ws2 capacity','c3_ws3 capacity','ws1 state','ws2 state','ws3 state','p1 produced','p2 produced','p3 produced')
 with open("data.csv", "a") as f:
     f.write(header)
 
@@ -181,7 +181,7 @@ while True:
         c1_ws2_o = Decimal(c1_ws2_s) / Decimal(sim_time)
         c1_ws3_o = Decimal(c1_ws3_s) / Decimal(sim_time)
         c2_ws2_o = Decimal(c2_ws2_s) / Decimal(sim_time)
-        c3_ws3_o = Decimal(c3_ws3_s) / Decimal(sim_time)
+        c3_ws3_o = Decimal(c3_ws3_s) / Decimal(sim_time) 
 
     # handle events, change state
     # "start events" toggle entity state to 1
