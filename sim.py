@@ -192,15 +192,21 @@ while True:
         appendToCSV(sim_time,'ins1 started')
     elif event_type == 'ins1_done':
         ins1 = 0
-        if c1_ws1 <= c1_ws2 and c1_ws1 < 2:
-            c1_ws1 += 1
-            appendToCSV(sim_time,'ins1 end produce to c1_ws1')
-        elif c1_ws2 <= c1_ws3 and c1_ws2 < 2:
-            c1_ws2 += 1
-            appendToCSV(sim_time,'ins1 end produce to c1_ws2')
-        elif c1_ws3 < 2:
-            c1_ws3 += 1
-            appendToCSV(sim_time,'ins1 end produce to c1_ws3')
+        buffers = []
+        buffers.append([c1_ws1,'c1_ws1'])
+        buffers.append([c1_ws2,'c1_ws2'])
+        buffers.append([c1_ws3,'c1_ws3'])
+        buffers.sort()
+        if buffers[0][0] < 2:
+            if buffers[0][1] == 'c1_ws1':
+                c1_ws1 += 1
+                appendToCSV(sim_time,'ins1 end produce to c1_ws1')
+            elif buffers[0][1] == 'c1_ws2':
+                c1_ws2 += 1
+                appendToCSV(sim_time,'ins1 end produce to c1_ws2')
+            else:
+                c1_ws3 += 1
+                appendToCSV(sim_time,'ins1 end produce to c1_ws3')
         else:
             ins1 = 1
             
@@ -265,9 +271,9 @@ while True:
         p3 += 1
         appendToCSV(sim_time,'ws3 end produce to p3')
 
-print(f'simulation ran for: ', {sim_time}, ' seconds')
-print(f'components used: c1: ', {c1}, ' c2: ', {c2}, ' c3: ', {c3})
-print(f'products created: p1: ', {p1}, ' p2: ', {p2}, ' p3: ', {p3})
+print(f'simulation ran for:', {sim_time}, 'minutes')
+print(f'components used: c1:', {c1}, 'c2:', {c2}, 'c3:', {c3})
+print(f'products created: p1:', {p1}, 'p2:', {p2}, 'p3:', {p3})
 
 print(f'c1_ws1 average occupancy: {c1_ws1_o}')
 print(f'c1_ws2 average occupancy: {c1_ws2_o}')
