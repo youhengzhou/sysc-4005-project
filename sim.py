@@ -5,7 +5,9 @@ import random
 import os
 
 # CLCG from milestone 2
-def EXPDist_RVG(x1, x2, mean):
+def EXPDist_RVG(mean):
+    x1 = 18943
+    x2 = 30084
     a1 = 40014
     a2 = 40692
     m1 = 2147483563
@@ -20,7 +22,7 @@ def EXPDist_RVG(x1, x2, mean):
             randomNumberForCycle = 2147483562 / 2147483563
         return -1/(1/mean) * math.log(1 - randomNumberForCycle)
 
-# EXPDist_RVG(18943, 30084, 10.35791)
+# EXPDist_RVG(10.35791)
 
 # initialize csv files for getting data
 if (os.path.exists('data.csv')):
@@ -112,13 +114,11 @@ c3_ws3_s = 0
 c3_ws3_o = 0
 
 sim_time = 0
-fel = []
-fel.append([0, 'ins1'])
-fel.append([0, 'ins2'])
+fel = [[0, 'ins1'],[0, 'ins2']]
 heapq.heapify(fel)
 
 while True:
-    if sim_time > 1000:
+    if sim_time > 7000:
         break
 
     # check states, create events to be handled
@@ -131,17 +131,19 @@ while True:
         ins1_w += work_time
         heapq.heappush(fel,([sim_time + work_time, 'ins1_done']))
     
-    if ins2 == 0 and (c2_ws2 < 0 or c3_ws3 < 2) and not any(event[1] == 'ins2' for event in fel):
-        heapq.heappush(fel,([sim_time, 'ins2']))
-    if ins2 == 1 and (c2_ws2 < 0 or c3_ws3 < 2) and not any(event[1] == 'ins2_done' for event in fel):
+    if ins2 == 0 and (c2_ws2 < 0 or c3_ws3 < 2) and (not any(event[1] == 'ins22' for event in fel)) and (not any(event[1] == 'ins23' for event in fel)):
         if random.randint(0,1) == 0:
-            work_time = random.choice(ins22_input)
-            ins2_w += work_time
-            heapq.heappush(fel,([sim_time + work_time, 'ins22_done']))
+            heapq.heappush(fel,([sim_time, 'ins22']))
         else:
-            work_time = random.choice(ins23_input)
-            ins2_w += work_time
-            heapq.heappush(fel,([sim_time + work_time, 'ins23_done']))
+            heapq.heappush(fel,([sim_time, 'ins23']))
+    if ins2 == 2 and (c2_ws2 < 2) and not any(event[1] == 'ins22_done' for event in fel):
+        work_time = random.choice(ins22_input)
+        ins2_w += work_time
+        heapq.heappush(fel,([sim_time + work_time, 'ins22_done']))
+    if ins2 == 3 and (c3_ws3 < 2) and not any(event[1] == 'ins23_done' for event in fel):
+        work_time = random.choice(ins23_input)
+        ins2_w += work_time
+        heapq.heappush(fel,([sim_time + work_time, 'ins23_done']))
 
     if ws1 == 0 and c1_ws1 > 0 and not any(event[1] == 'ws1' for event in fel):
         heapq.heappush(fel,([sim_time, 'ws1']))
@@ -202,25 +204,28 @@ while True:
         else:
             ins1 = 1
             
-    elif event_type == 'ins2':
-        ins2 = 1
-        appendToCSV(sim_time,'ins2 started')
+    elif event_type == 'ins22':
+        ins2 = 2
+        c2 += 1
+        appendToCSV(sim_time,'ins2 started for c2')
+    elif event_type == 'ins23':
+        ins2 = 3
+        c3 += 1
+        appendToCSV(sim_time,'ins2 started for c3')
     elif event_type == 'ins22_done':
         ins2 = 0
         if c2_ws2 < 2:
-            c2 += 1
             c2_ws2 += 1
             appendToCSV(sim_time,'ins2 end produce to c2_ws2')
         else:
-            ins2 = 1
+            ins2 = 2
     elif event_type == 'ins23_done':
         ins2 = 0
         if c3_ws3 < 2:
-            c3 += 1
             c3_ws3 += 1
             appendToCSV(sim_time,'ins2 end produce to c3_ws3')
         else:
-            ins2 = 1
+            ins2 = 3
 
     elif event_type == 'ws1':
         ws1 = 1
@@ -261,6 +266,7 @@ while True:
         appendToCSV(sim_time,'ws3 end produce to p3')
 
 print(f'simulation ran for: ', {sim_time}, ' seconds')
+print(f'components used: c1: ', {c1}, ' c2: ', {c2}, ' c3: ', {c3})
 print(f'products created: p1: ', {p1}, ' p2: ', {p2}, ' p3: ', {p3})
 
 print(f'c1_ws1 average occupancy: {c1_ws1_o}')
