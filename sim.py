@@ -66,28 +66,6 @@ ws1_input = read_dat_files('input files/ws1.dat')
 ws2_input = read_dat_files('input files/ws2.dat')
 ws3_input = read_dat_files('input files/ws3.dat')
 
-# simulation states
-c1 = 0
-c2 = 0
-c3 = 0
-
-ins1 = 0
-ins2 = 0
-
-c1_ws1 = 0
-c1_ws2 = 0
-c1_ws3 = 0
-c2_ws2 = 0
-c3_ws3 = 0
-
-ws1 = 0
-ws2 = 0
-ws3 = 0
-
-p1 = 0
-p2 = 0
-p3 = 0
-
 # stats calculation states
 p1_t = 0 # product throughput
 p2_t = 0
@@ -112,6 +90,28 @@ c2_ws2_s = 0
 c2_ws2_o = 0
 c3_ws3_s = 0
 c3_ws3_o = 0
+
+# simulation states
+c1 = 0
+c2 = 0
+c3 = 0
+
+ins1 = 0
+ins2 = 0
+
+c1_ws1 = 0
+c1_ws2 = 0
+c1_ws3 = 0
+c2_ws2 = 0
+c3_ws3 = 0
+
+ws1 = 0
+ws2 = 0
+ws3 = 0
+
+p1 = 0
+p2 = 0
+p3 = 0
 
 sim_time = 0
 fel = [[0, 'ins1'],[0, 'ins2']]
