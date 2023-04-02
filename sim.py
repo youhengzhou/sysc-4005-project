@@ -38,7 +38,7 @@ def appendToCSV(arrival_time, event_type):
         p2_t = Decimal(p2) / Decimal(sim_time)
         p3_t = Decimal(p3) / Decimal(sim_time)
     ins1_b = Decimal(sim_time) - Decimal(ins1_w)
-    ins1_b = Decimal(sim_time) - Decimal(ins1_w)
+    ins2_b = Decimal(sim_time) - Decimal(ins2_w)
     ws1_i = Decimal(sim_time) - Decimal(ws1_w)
     ws2_i = Decimal(sim_time) - Decimal(ws2_w)
     ws3_i = Decimal(sim_time) - Decimal(ws3_w)
@@ -127,15 +127,21 @@ while True:
     if ins1 == 0 and (c1_ws1 < 2 or c1_ws2 < 2 or c1_ws3 < 2) and not any(event[1] == 'ins1' for event in fel):
         heapq.heappush(fel,([sim_time, 'ins1']))
     if ins1 == 1 and (c1_ws1 < 2 or c1_ws2 < 2 or c1_ws3 < 2) and not any(event[1] == 'ins1_done' for event in fel):
-        heapq.heappush(fel,([sim_time + random.choice(ins1_input), 'ins1_done']))
+        work_time = random.choice(ins1_input)
+        ins1_w += work_time
+        heapq.heappush(fel,([sim_time + work_time, 'ins1_done']))
     
     if ins2 == 0 and (c2_ws2 < 0 or c3_ws3 < 2) and not any(event[1] == 'ins2' for event in fel):
         heapq.heappush(fel,([sim_time, 'ins2']))
     if ins2 == 1 and (c2_ws2 < 0 or c3_ws3 < 2) and not any(event[1] == 'ins2_done' for event in fel):
         if random.randint(0,1) == 0:
-            heapq.heappush(fel,([sim_time + random.choice(ins22_input), 'ins22_done']))
+            work_time = random.choice(ins22_input)
+            ins2_w += work_time
+            heapq.heappush(fel,([sim_time + work_time, 'ins22_done']))
         else:
-            heapq.heappush(fel,([sim_time + random.choice(ins23_input), 'ins23_done']))
+            work_time = random.choice(ins23_input)
+            ins2_w += work_time
+            heapq.heappush(fel,([sim_time + work_time, 'ins23_done']))
 
     if ws1 == 0 and c1_ws1 > 0 and not any(event[1] == 'ws1' for event in fel):
         heapq.heappush(fel,([sim_time, 'ws1']))
