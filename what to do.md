@@ -35,6 +35,10 @@ L: average number of items in a system, average buffer occupancy
 lambda: the average rate at which items enter and leave the system,
 W: average time that each item spends in the system
 
+buffer is now [1|2] and time [1'stime,2'stime]
+
+find stnd deviation, by plotting it multiple times
+
 -   system
 
     -   c1 + c2 + c3
@@ -85,7 +89,7 @@ y axis: beta, fail to reject null hypo when it's false, 0 -> 0.5
 
 average of all trials
 
-we do 1 min/standard deviation of avg of all buffer occupancy trials
+we do 1 min/standard deviation of avg of all buffer occupancy trials, for like 30 trials
 
 # part 5: initialization time
 
