@@ -8,8 +8,23 @@
 
 -   5x additionally to validate the simulation using Little's law you need to track how long each component spends in a given buffer. (and output the average time for each buffer) This may be difficult for groups that only track the number of components and do not have a data structure associated with the components.
 
+mean of:
+
+ins1
+ins22
+ins23
+ws1
+ws2
+ws3
+
 part 1:
 
 little's law
 
+L           average number of items in a system, average buffer occupancy
+lambda      the average rate at which items enter and leave the system, 
+w           average time that each item spends in the system
+
+
+0.470099549/0.010998983
 
