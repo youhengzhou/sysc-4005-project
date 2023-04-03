@@ -104,14 +104,19 @@ ws3_w = 0
 ws3_i = 0
 c1_ws1_s = 0 # buffer total sum
 c1_ws1_o = 0 # buffer occupancy
+c1_ws1_t = 0 # time in buffer
 c1_ws2_s = 0
 c1_ws2_o = 0
+c1_ws2_t = 0 # time in buffer
 c1_ws3_s = 0
 c1_ws3_o = 0
+c1_ws3_t = 0 # time in buffer
 c2_ws2_s = 0
 c2_ws2_o = 0
+c2_ws2_t = 0 # time in buffer
 c3_ws3_s = 0
 c3_ws3_o = 0
+c3_ws3_t = 0 # time in buffer
 
 def sim(run_num):
     global sim_time, fel
@@ -252,6 +257,7 @@ def sim(run_num):
             if c1_ws1 > 0:
                 ws1[0] = 1
                 ws1[1] = sim_time
+                c1_ws1_t = sim_time - ins1[1]
                 c1_ws1 -= 1
                 appendToCSV(sim_time,'ws1 started')
         elif event_type == 'ws1_done':
@@ -264,6 +270,7 @@ def sim(run_num):
             if c1_ws2 > 0 and c2_ws2 > 0:
                 ws2[0] = 1
                 ws2[1] = sim_time
+                c1_ws2_t = sim_time - ins2[1]
                 c1_ws2 -= 1
                 c2_ws2 -= 1
                 appendToCSV(sim_time,'ws2 started')
@@ -296,9 +303,9 @@ def sim(run_num):
     print(f'c1_ws3 average occupancy: {c1_ws3_o}')
     print(f'c3_ws3 average occupancy: {c3_ws3_o}')
 
-    print(f'c1 throughput: {c1_t}')
-    print(f'c2 throughput: {c2_t}')
-    print(f'c3 throughput: {c3_t}')
+    print(f'c1 take in rate: {c1_t}')
+    print(f'c2 take in rate: {c2_t}')
+    print(f'c3 take in rate: {c3_t}')
 
     print(f'p1 throughput: {p1_t}')
     print(f'p2 throughput: {p2_t}')
