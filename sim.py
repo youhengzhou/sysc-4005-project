@@ -156,17 +156,23 @@ def sim():
         if ws1[0] == 0 and c1_ws1 > 0 and not any(event[1] == 'ws1' for event in fel):
             heapq.heappush(fel,([sim_time, 'ws1']))
         if ws1[0] == 1 and c1_ws1 > 0 and not any(event[1] == 'ws1_done' for event in fel):
-            heapq.heappush(fel,([sim_time + random.choice(ws1_input), 'ws1_done']))
+            work_time = random.choice(ws1_input)
+            ws1_w += work_time
+            heapq.heappush(fel,([sim_time + work_time, 'ws1_done']))
         
         if ws2[0] == 0 and c1_ws2 > 0 and c2_ws2 > 0 and not any(event[1] == 'ws2' for event in fel):
             heapq.heappush(fel,([sim_time, 'ws2']))
         if ws2[0] == 1 and c1_ws2 > 0 and c2_ws2 > 0 and not any(event[1] == 'ws2_done' for event in fel):
-            heapq.heappush(fel,([sim_time + random.choice(ws2_input), 'ws2_done']))
+            work_time = random.choice(ws2_input)
+            ws2_w += work_time
+            heapq.heappush(fel,([sim_time + work_time, 'ws2_done']))
         
         if ws3[0] == 0 and c1_ws3 > 0 and c3_ws3 > 0 and not any(event[1] == 'ws3' for event in fel):
             heapq.heappush(fel,([sim_time, 'ws3']))
         if ws3[0] == 1 and c1_ws3 > 0 and c3_ws3 > 0 and not any(event[1] == 'ws3_done' for event in fel):
-            heapq.heappush(fel,([sim_time + random.choice(ws3_input), 'ws3_done']))
+            work_time = random.choice(ws3_input)
+            ws3_w += work_time
+            heapq.heappush(fel,([sim_time + work_time, 'ws3_done']))
 
         print(fel)
         
