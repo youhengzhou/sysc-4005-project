@@ -36,7 +36,7 @@ def appendToCSV(arrival_time, event_type):
         p1_t = Decimal(p1) / Decimal(sim_time)
         p2_t = Decimal(p2) / Decimal(sim_time)
         p3_t = Decimal(p3) / Decimal(sim_time)
-    ins1_b = Decimal(sim_time) - Decimal(ins1_w)
+    ins1_b = abs(Decimal(sim_time) - Decimal(ins1_w))
     ins2_b = Decimal(sim_time) - Decimal(ins2_w)
     ws1_i = Decimal(sim_time) - Decimal(ws1_w)
     ws2_i = Decimal(sim_time) - Decimal(ws2_w)
@@ -71,16 +71,16 @@ fel = []
 c1 = 0
 c2 = 0
 c3 = 0
-ins1 = [0,0]
-ins2 = [0,0]
+ins1 = 0
+ins2 = 0
 c1_ws1 = 0
 c1_ws2 = 0
 c1_ws3 = 0
 c2_ws2 = 0
 c3_ws3 = 0
-ws1 = [0,0]
-ws2 = [0,0]
-ws3 = [0,0]
+ws1 = 0
+ws2 = 0
+ws3 = 0
 p1 = 0
 p2 = 0
 p3 = 0
@@ -118,6 +118,17 @@ c3_ws3_s = 0
 c3_ws3_o = 0
 c3_ws3_t = 0 # time in buffer
 
+c1_ws1_times = []
+c1_ws2_times = []
+c1_ws3_times = []
+c2_ws2_times = []
+c3_ws3_times = []
+c1_ws1_times_c = 0
+c1_ws2_times_c = 0
+c1_ws3_times_c = 0
+c2_ws2_times_c = 0
+c3_ws3_times_c = 0
+
 def sim(run_num):
     global sim_time, fel
     global c1,c2,c3,ins1,ins2,c1_ws1,c1_ws2,c1_ws3,c2_ws2,c3_ws3,ws1,ws2,ws3,p1,p2,p3
@@ -137,44 +148,44 @@ def sim(run_num):
         # check states, create events to be handled
         # if entity is 0, create start event
         # if entity is 1, create end event
-        if ins1[0] == 0 and (c1_ws1 < 2 or c1_ws2 < 2 or c1_ws3 < 2) and not any(event[1] == 'ins1' for event in fel):
+        if ins1 == 0 and (c1_ws1 < 2 or c1_ws2 < 2 or c1_ws3 < 2) and not any(event[1] == 'ins1' for event in fel):
             heapq.heappush(fel,([sim_time, 'ins1']))
-        if ins1[0] == 1 and (c1_ws1 < 2 or c1_ws2 < 2 or c1_ws3 < 2) and not any(event[1] == 'ins1_done' for event in fel):
+        if ins1 == 1 and (c1_ws1 < 2 or c1_ws2 < 2 or c1_ws3 < 2) and not any(event[1] == 'ins1_done' for event in fel):
             work_time = random.choice(ins1_input)
             ins1_w += work_time
             heapq.heappush(fel,([sim_time + work_time, 'ins1_done']))
         
-        if ins2[0] == 0 and (c2_ws2 < 0 or c3_ws3 < 2) and (not any(event[1] == 'ins22' for event in fel)) and (not any(event[1] == 'ins23' for event in fel)):
+        if ins2 == 0 and (c2_ws2 < 0 or c3_ws3 < 2) and (not any(event[1] == 'ins22' for event in fel)) and (not any(event[1] == 'ins23' for event in fel)):
             if random.randint(0,1) == 0:
                 heapq.heappush(fel,([sim_time, 'ins22']))
             else:
                 heapq.heappush(fel,([sim_time, 'ins23']))
-        if ins2[0] == 2 and (c2_ws2 < 2) and not any(event[1] == 'ins22_done' for event in fel):
+        if ins2 == 2 and (c2_ws2 < 2) and not any(event[1] == 'ins22_done' for event in fel):
             work_time = random.choice(ins22_input)
             ins2_w += work_time
             heapq.heappush(fel,([sim_time + work_time, 'ins22_done']))
-        if ins2[0] == 3 and (c3_ws3 < 2) and not any(event[1] == 'ins23_done' for event in fel):
+        if ins2 == 3 and (c3_ws3 < 2) and not any(event[1] == 'ins23_done' for event in fel):
             work_time = random.choice(ins23_input)
             ins2_w += work_time
             heapq.heappush(fel,([sim_time + work_time, 'ins23_done']))
 
-        if ws1[0] == 0 and c1_ws1 > 0 and not any(event[1] == 'ws1' for event in fel):
+        if ws1 == 0 and c1_ws1 > 0 and not any(event[1] == 'ws1' for event in fel):
             heapq.heappush(fel,([sim_time, 'ws1']))
-        if ws1[0] == 1 and c1_ws1 > 0 and not any(event[1] == 'ws1_done' for event in fel):
+        if ws1 == 1 and c1_ws1 > 0 and not any(event[1] == 'ws1_done' for event in fel):
             work_time = random.choice(ws1_input)
             ws1_w += work_time
             heapq.heappush(fel,([sim_time + work_time, 'ws1_done']))
         
-        if ws2[0] == 0 and c1_ws2 > 0 and c2_ws2 > 0 and not any(event[1] == 'ws2' for event in fel):
+        if ws2 == 0 and c1_ws2 > 0 and c2_ws2 > 0 and not any(event[1] == 'ws2' for event in fel):
             heapq.heappush(fel,([sim_time, 'ws2']))
-        if ws2[0] == 1 and c1_ws2 > 0 and c2_ws2 > 0 and not any(event[1] == 'ws2_done' for event in fel):
+        if ws2 == 1 and c1_ws2 > 0 and c2_ws2 > 0 and not any(event[1] == 'ws2_done' for event in fel):
             work_time = random.choice(ws2_input)
             ws2_w += work_time
             heapq.heappush(fel,([sim_time + work_time, 'ws2_done']))
         
-        if ws3[0] == 0 and c1_ws3 > 0 and c3_ws3 > 0 and not any(event[1] == 'ws3' for event in fel):
+        if ws3 == 0 and c1_ws3 > 0 and c3_ws3 > 0 and not any(event[1] == 'ws3' for event in fel):
             heapq.heappush(fel,([sim_time, 'ws3']))
-        if ws3[0] == 1 and c1_ws3 > 0 and c3_ws3 > 0 and not any(event[1] == 'ws3_done' for event in fel):
+        if ws3 == 1 and c1_ws3 > 0 and c3_ws3 > 0 and not any(event[1] == 'ws3_done' for event in fel):
             work_time = random.choice(ws3_input)
             ws3_w += work_time
             heapq.heappush(fel,([sim_time + work_time, 'ws3_done']))
@@ -207,8 +218,7 @@ def sim(run_num):
         # "start events" toggle entity state to 1
         # "end events" check if product queue is free, then produce product, then toggle entity state to 0
         if event_type == 'ins1':
-            ins1[0] = 1
-            ins1[1] = sim_time
+            ins1 = 1
             c1 += 1
             appendToCSV(sim_time,'ins1 started')
         elif event_type == 'ins1_done':
@@ -218,78 +228,80 @@ def sim(run_num):
             buffers.append([c1_ws3,'c1_ws3'])
             buffers.sort()
             if buffers[0][0] < 2:
-                ins1[0] = 0
-                ins1[1] = sim_time
+                ins1 = 0
                 if buffers[0][1] == 'c1_ws1':
                     c1_ws1 += 1
+                    c1_ws1_times.append(sim_time)
                     appendToCSV(sim_time,'ins1 end produce to c1_ws1')
                 elif buffers[0][1] == 'c1_ws2':
                     c1_ws2 += 1
+                    c1_ws2_times.append(sim_time)
                     appendToCSV(sim_time,'ins1 end produce to c1_ws2')
                 else:
                     c1_ws3 += 1
+                    c1_ws3_times.append(sim_time)
                     appendToCSV(sim_time,'ins1 end produce to c1_ws3')
                 
         elif event_type == 'ins22':
-            ins2[0] = 2
-            ins2[1] = sim_time
+            ins2 = 2
             c2 += 1
             appendToCSV(sim_time,'ins2 started for c2')
         elif event_type == 'ins23':
-            ins2[0] = 3
-            ins2[1] = sim_time
+            ins2 = 3
             c3 += 1
             appendToCSV(sim_time,'ins2 started for c3')
         elif event_type == 'ins22_done':
             if c2_ws2 < 2:
-                ins2[0] = 0
-                ins2[1] = sim_time
+                ins2 = 0
                 c2_ws2 += 1
+                c2_ws2_times.append(sim_time)
                 appendToCSV(sim_time,'ins2 end produce to c2_ws2')
         elif event_type == 'ins23_done':
             if c3_ws3 < 2:
-                ins2[0] = 0
-                ins2[1] = sim_time
+                ins2 = 0
                 c3_ws3 += 1
+                c3_ws3_times.append(sim_time)
                 appendToCSV(sim_time,'ins2 end produce to c3_ws3')
 
         elif event_type == 'ws1':
             if c1_ws1 > 0:
-                ws1[0] = 1
-                ws1[1] = sim_time
-                c1_ws1_t = sim_time - ins1[1]
+                ws1 = 1
+                c1_ws1_times.sort()
+                c1_ws1_times_c += sim_time - c1_ws1_times.pop(1)
                 c1_ws1 -= 1
                 appendToCSV(sim_time,'ws1 started')
         elif event_type == 'ws1_done':
-            ws1[0] = 0
-            ws1[1] = sim_time
+            ws1 = 0
             p1 += 1
             appendToCSV(sim_time,'ws1 end produce to p1')
 
         elif event_type == 'ws2':
             if c1_ws2 > 0 and c2_ws2 > 0:
-                ws2[0] = 1
-                ws2[1] = sim_time
-                c1_ws2_t = sim_time - ins2[1]
+                ws2 = 1
+                c1_ws2_times.sort()
+                c1_ws2_times_c += sim_time - c1_ws2_times.pop(1)
+                c2_ws2_times.sort()
+                c2_ws2_times_c += sim_time - c2_ws2_times.pop(1)
                 c1_ws2 -= 1
                 c2_ws2 -= 1
                 appendToCSV(sim_time,'ws2 started')
         elif event_type == 'ws2_done':
-            ws2[0] = 0
-            ws2[1] = sim_time
+            ws2 = 0
             p2 += 1
             appendToCSV(sim_time,'ws2 end produce to p2')
 
         elif event_type == 'ws3':
             if c1_ws3 > 0 and c3_ws3 > 0:
-                ws3[0] = 1
-                ws3[1] = sim_time
+                ws3 = 1
+                c1_ws3_times.sort()
+                c1_ws3_times_c += sim_time - c1_ws3_times.pop(1)
+                c3_ws3_times.sort()
+                c3_ws3_times_c += sim_time - c3_ws3_times.pop(1)
                 c1_ws3 -= 1
                 c3_ws3 -= 1
                 appendToCSV(sim_time,'ws3 started')
         elif event_type == 'ws3_done':
-            ws3[0] = 0
-            ws3[1] = sim_time
+            ws3 = 0
             p3 += 1
             appendToCSV(sim_time,'ws3 end produce to p3')
 
@@ -310,6 +322,12 @@ def sim(run_num):
     print(f'lambda c1 take in rate: {c1_t}')
     print(f'lambda c2 take in rate: {c2_t}')
     print(f'lambda c3 take in rate: {c3_t}')
+
+    print(f'W c1_ws1: {c1_ws1_times_c}')
+    print(f'W c1_ws2: {c1_ws2_times_c}')
+    print(f'W c2_ws2: {c2_ws2_times_c}')
+    print(f'W c1_ws3: {c1_ws3_times_c}')
+    print(f'W c3_ws3: {c3_ws3_times_c}')
 
     print(f'p1 throughput: {p1_t}')
     print(f'p2 throughput: {p2_t}')

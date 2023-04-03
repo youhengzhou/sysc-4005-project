@@ -17,19 +17,27 @@ ws1
 ws2
 ws3
 
-# part 1 verification, we are building our system right:
+# part 1 validation, we are building our system right:
 
--   our output never exceeds our input
+-   code review, writing, youheng
 
-    -   screenshot of we don't use more components than our products
+    -   independent individual review the model code of part they didn't do
 
--   our buffer never exceeds 2 or less than 1
+-   flow chart, leenesh does it first, then we critique it
 
-    -   screenshot
+-   check output for reasonableness, screenshots, youheng
+
+    -   queue size cannot be more than 2, or less than 0
+    -   throughput not negative
+    -   component in
+    -   product out
+        -   should match up
+
+_- other validation alternatives, imran_
 
 # part 2 verification, using little's law:
 
-little's law
+little's law, youheng
 
 L: average number of items in a system, average buffer occupancy
 lambda: the average rate at which items enter and leave the system,
@@ -37,7 +45,9 @@ W: average time that each item spends in the system
 
 buffer is now [1|2] and time [1'stime,2'stime]
 
-find stnd deviation, by plotting it multiple times
+L: total number used
+lambda: total number used / sim_time
+W: time component is in inspector + time component is in buffer + time component is in workstation
 
 -   system
 
@@ -80,9 +90,21 @@ find stnd deviation, by plotting it multiple times
 
 # part 3: validation
 
-# part 4: OC curve
+compare with pdf numbers
 
-use OC curve to find replications
+# part 4: OC curve, imran
+
+we pick critical diff
+
+critical diff divide stnd dev
+
+sigma on x axis
+
+1 - sigma for y axis
+
+find closest number on OC curve
+
+use OC curve to find n value, number of replications
 
 x axis: alpha, accepting h0 percentage, 0 -> 100
 y axis: beta, fail to reject null hypo when it's false, 0 -> 0.5
@@ -91,11 +113,13 @@ average of all trials
 
 we do 1 min/standard deviation of avg of all buffer occupancy trials, for like 30 trials
 
-# part 5: initialization time
+we find beta, and then do 1 - beta to find alpha, which is our y axis
+
+# part 5: initialization time, imran
 
 use ensemble averages to find initialization time
 
-# part 6: confidence interval
+# part 6: confidence interval, imran
 
 with replications, find standard deviation
 
