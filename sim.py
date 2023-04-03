@@ -303,9 +303,13 @@ def sim(run_num):
     print(f'c1_ws3 average occupancy: {c1_ws3_o}')
     print(f'c3_ws3 average occupancy: {c3_ws3_o}')
 
-    print(f'c1 take in rate: {c1_t}')
-    print(f'c2 take in rate: {c2_t}')
-    print(f'c3 take in rate: {c3_t}')
+    print(f'L c1: {c1_ws1_o+c1_ws2_o+c1_ws3_o}')
+    print(f'L c2: {c2_ws2_o}')
+    print(f'L c3: {c3_ws3_o}')
+
+    print(f'lambda c1 take in rate: {c1_t}')
+    print(f'lambda c2 take in rate: {c2_t}')
+    print(f'lambda c3 take in rate: {c3_t}')
 
     print(f'p1 throughput: {p1_t}')
     print(f'p2 throughput: {p2_t}')
