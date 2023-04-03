@@ -24,13 +24,6 @@ def EXPDist_RVG(mean):
 
 # EXPDist_RVG(10.35791)
 
-# initialize csv files for getting data
-if (os.path.exists('data.csv')):
-    os.remove('data.csv')
-header = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % ('arrival_time (minutes)','event_type','c1 average input rate','c2 average input rate','c3 average input rate','p1 throughput','p2 throughput','p3 throughput','ins1 blocked time','ins2 blocked time','ws1 idle time','ws2 idle time','ws3 idle time','c1_ws1 occp','c1_ws2 occp','c1_ws3 occp','c2_ws2 occp','c3_ws3 occp','c1 used','c2 used','c3 used','ins1 state','ins2 state','c1_ws1 capacity','c1_ws2 capacity','c3_ws3 capacity','c2_ws2 capacity','c3_ws3 capacity','ws1 state','ws2 state','ws3 state','p1 produced','p2 produced','p3 produced')
-with open("data.csv", "a") as f:
-    f.write(header)
-
 # function for appending to csv file
 def appendToCSV(arrival_time, event_type):
     global sim_time
@@ -120,10 +113,17 @@ c2_ws2_o = 0
 c3_ws3_s = 0
 c3_ws3_o = 0
 
-def sim():
+def sim(run_num):
     global sim_time, fel
     global c1,c2,c3,ins1,ins2,c1_ws1,c1_ws2,c1_ws3,c2_ws2,c3_ws3,ws1,ws2,ws3,p1,p2,p3
     global p1_t,p2_t,p3_t,ins1_w,ins1_b,ins2_w,ins2_b,ws1_w,ws1_i,ws2_w,ws2_i,ws3_w,ws3_i,c1_ws1_o,c1_ws2_o,c1_ws3_o,c2_ws2_o,c3_ws3_o,c1_ws1_s,c1_ws1_o,c1_ws2_s,c1_ws2_o,c1_ws3_s,c1_ws3_o,c2_ws2_s,c2_ws2_o,c3_ws3_s,c3_ws3_o
+
+    # initialize csv files for getting data
+    if (os.path.exists('data.csv')):
+        os.remove('data.csv')
+    header = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % ('arrival_time (minutes)','event_type','c1 average input rate','c2 average input rate','c3 average input rate','p1 throughput','p2 throughput','p3 throughput','ins1 blocked time','ins2 blocked time','ws1 idle time','ws2 idle time','ws3 idle time','c1_ws1 occp','c1_ws2 occp','c1_ws3 occp','c2_ws2 occp','c3_ws3 occp','c1 used','c2 used','c3 used','ins1 state','ins2 state','c1_ws1 capacity','c1_ws2 capacity','c3_ws3 capacity','c2_ws2 capacity','c3_ws3 capacity','ws1 state','ws2 state','ws3 state','p1 produced','p2 produced','p3 produced')
+    with open("data.csv", "a") as f:
+        f.write(header)
 
     while True:
         if sim_time > 7000:
@@ -227,52 +227,62 @@ def sim():
                 
         elif event_type == 'ins22':
             ins2[0] = 2
+            ins2[1] = sim_time
             c2 += 1
             appendToCSV(sim_time,'ins2 started for c2')
         elif event_type == 'ins23':
             ins2[0] = 3
+            ins2[1] = sim_time
             c3 += 1
             appendToCSV(sim_time,'ins2 started for c3')
         elif event_type == 'ins22_done':
             if c2_ws2 < 2:
                 ins2[0] = 0
+                ins2[1] = sim_time
                 c2_ws2 += 1
                 appendToCSV(sim_time,'ins2 end produce to c2_ws2')
         elif event_type == 'ins23_done':
             if c3_ws3 < 2:
                 ins2[0] = 0
+                ins2[1] = sim_time
                 c3_ws3 += 1
                 appendToCSV(sim_time,'ins2 end produce to c3_ws3')
 
         elif event_type == 'ws1':
             if c1_ws1 > 0:
                 ws1[0] = 1
+                ws1[1] = sim_time
                 c1_ws1 -= 1
                 appendToCSV(sim_time,'ws1 started')
         elif event_type == 'ws1_done':
             ws1[0] = 0
+            ws1[1] = sim_time
             p1 += 1
             appendToCSV(sim_time,'ws1 end produce to p1')
 
         elif event_type == 'ws2':
             if c1_ws2 > 0 and c2_ws2 > 0:
                 ws2[0] = 1
+                ws2[1] = sim_time
                 c1_ws2 -= 1
                 c2_ws2 -= 1
                 appendToCSV(sim_time,'ws2 started')
         elif event_type == 'ws2_done':
             ws2[0] = 0
+            ws2[1] = sim_time
             p2 += 1
             appendToCSV(sim_time,'ws2 end produce to p2')
 
         elif event_type == 'ws3':
             if c1_ws3 > 0 and c3_ws3 > 0:
                 ws3[0] = 1
+                ws3[1] = sim_time
                 c1_ws3 -= 1
                 c3_ws3 -= 1
                 appendToCSV(sim_time,'ws3 started')
         elif event_type == 'ws3_done':
             ws3[0] = 0
+            ws3[1] = sim_time
             p3 += 1
             appendToCSV(sim_time,'ws3 end produce to p3')
 
@@ -308,4 +318,4 @@ def sim():
     print(f'ws3 work time: {ws3_w}')
     print(f'ws3 blocked time: {ws3_i}')
 
-sim()
+sim(0)
