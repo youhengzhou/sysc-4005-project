@@ -90,7 +90,7 @@ W: time component is in inspector + time component is in buffer + time component
 
 # part 3: validation
 
-compare with pdf numbers
+compare with pdf numbers, 20% confidence interval
 
 # part 4: OC curve, imran
 
@@ -117,10 +117,12 @@ we find beta, and then do 1 - beta to find alpha, which is our y axis
 
 # part 5: initialization time, imran
 
-use ensemble averages to find initialization time
+use ensemble averages to find initialization time, and eyeball it
 
 # part 6: confidence interval, imran
 
 with replications, find standard deviation
 
 each of the buffer
+
+Y +- t table state \* stnd dev / sqrt(n of replications)

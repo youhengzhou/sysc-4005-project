@@ -6,21 +6,23 @@ import os
 
 # CLCG from milestone 2
 def EXPDist_RVG(mean):
-    x1 = 18943
-    x2 = 30084
+    global x1,x2
+    # x1 = 18943
+    # x2 = 30084
+    
     a1 = 40014
     a2 = 40692
     m1 = 2147483563
     m2 = 2147483399
-    for _ in range(300):
-        x1 = (a1 * x1) % m1
-        x2 = (a2 * x2) % m2
-        xj = (x1 - x2) % (2147483562)
-        if xj > 0:
-            randomNumberForCycle = xj / 2147483563
-        else:
-            randomNumberForCycle = 2147483562 / 2147483563
-        return -1/(1/mean) * math.log(1 - randomNumberForCycle)
+    
+    x1 = (a1 * x1) % m1
+    x2 = (a2 * x2) % m2
+    xj = (x1 - x2) % (2147483562)
+    if xj > 0:
+        randomNumberForCycle = xj / 2147483563
+    else:
+        randomNumberForCycle = 2147483562 / 2147483563
+    return Decimal(-1/(1/mean) * math.log(1 - randomNumberForCycle))
 
 # EXPDist_RVG(10.35791)
 
@@ -36,8 +38,10 @@ def appendToCSV(arrival_time, event_type):
         p1_t = Decimal(p1) / Decimal(sim_time)
         p2_t = Decimal(p2) / Decimal(sim_time)
         p3_t = Decimal(p3) / Decimal(sim_time)
-    ins1_b = abs(Decimal(sim_time) - Decimal(ins1_w))
-    ins2_b = Decimal(sim_time) - Decimal(ins2_w)
+    if Decimal(sim_time) - Decimal(ins1_w) >= 0 and ins1 == 0:
+        ins1_b = Decimal(sim_time) - Decimal(ins1_w)
+    if Decimal(sim_time) - Decimal(ins2_w) >= 0 and ins2 == 0:
+        ins2_b = Decimal(sim_time) - Decimal(ins2_w)
     ws1_i = Decimal(sim_time) - Decimal(ws1_w)
     ws2_i = Decimal(sim_time) - Decimal(ws2_w)
     ws3_i = Decimal(sim_time) - Decimal(ws3_w)
@@ -66,6 +70,8 @@ ws3_input = read_dat_files('input files/ws3.dat')
 # simulation states
 sim_time = 0
 fel = []
+x1 = 18943
+x2 = 30084
 
 # factory states
 c1 = 0
@@ -128,22 +134,30 @@ c1_ws2_times_c = 0
 c1_ws3_times_c = 0
 c2_ws2_times_c = 0
 c3_ws3_times_c = 0
+c1_ws1_times_w = 0
+c1_ws2_times_w = 0
+c1_ws3_times_w = 0
+c2_ws2_times_w = 0
+c3_ws3_times_w = 0
 
-def sim(run_num):
-    global sim_time, fel
+def sim(run_num, clcg_x1, clcg_x2):
+    global sim_time, fel, x1, x2
     global c1,c2,c3,ins1,ins2,c1_ws1,c1_ws2,c1_ws3,c2_ws2,c3_ws3,ws1,ws2,ws3,p1,p2,p3
     global p1_t,p2_t,p3_t,ins1_w,ins1_b,ins2_w,ins2_b,ws1_w,ws1_i,ws2_w,ws2_i,ws3_w,ws3_i,c1_ws1_o,c1_ws2_o,c1_ws3_o,c2_ws2_o,c3_ws3_o,c1_ws1_s,c1_ws1_o,c1_ws2_s,c1_ws2_o,c1_ws3_s,c1_ws3_o,c2_ws2_s,c2_ws2_o,c3_ws3_s,c3_ws3_o
-    global c1_ws1_times,c1_ws2_times,c1_ws3_times,c2_ws2_times,c3_ws3_times,c1_ws1_times_c,c1_ws2_times_c,c1_ws3_times_c,c2_ws2_times_c,c3_ws3_times_c
+    global c1_ws1_times,c1_ws2_times,c1_ws3_times,c2_ws2_times,c3_ws3_times,c1_ws1_times_c,c1_ws2_times_c,c1_ws3_times_c,c2_ws2_times_c,c3_ws3_times_c,c1_ws1_times_w,c1_ws2_times_w,c1_ws3_times_w,c2_ws2_times_w,c3_ws3_times_w
 
-# initialize csv files for getting data
+    # initialize csv files for getting data
     if (os.path.exists('data.csv')):
         os.remove('data.csv')
     header = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % ('arrival_time (minutes)','event_type','c1 average input rate','c2 average input rate','c3 average input rate','p1 throughput','p2 throughput','p3 throughput','ins1 blocked time','ins2 blocked time','ws1 idle time','ws2 idle time','ws3 idle time','c1_ws1 occp','c1_ws2 occp','c1_ws3 occp','c2_ws2 occp','c3_ws3 occp','c1 used','c2 used','c3 used','ins1 state','ins2 state','c1_ws1 capacity','c1_ws2 capacity','c3_ws3 capacity','c2_ws2 capacity','c3_ws3 capacity','ws1 state','ws2 state','ws3 state','p1 produced','p2 produced','p3 produced')
     with open("data.csv", "a") as f:
         f.write(header)
 
+    x1 = clcg_x1
+    x2 = clcg_x2
+
     while True:
-        if sim_time > 7000:
+        if sim_time > 10000:
             break
 
         # check states, create events to be handled
@@ -152,7 +166,7 @@ def sim(run_num):
         if ins1 == 0 and (c1_ws1 < 2 or c1_ws2 < 2 or c1_ws3 < 2) and not any(event[1] == 'ins1' for event in fel):
             heapq.heappush(fel,([sim_time, 'ins1']))
         if ins1 == 1 and (c1_ws1 < 2 or c1_ws2 < 2 or c1_ws3 < 2) and not any(event[1] == 'ins1_done' for event in fel):
-            work_time = random.choice(ins1_input)
+            work_time = EXPDist_RVG(10.35791)
             ins1_w += work_time
             heapq.heappush(fel,([sim_time + work_time, 'ins1_done']))
         
@@ -162,36 +176,36 @@ def sim(run_num):
             else:
                 heapq.heappush(fel,([sim_time, 'ins23']))
         if ins2 == 2 and (c2_ws2 < 2) and not any(event[1] == 'ins22_done' for event in fel):
-            work_time = random.choice(ins22_input)
+            work_time = EXPDist_RVG(15.53690333)
             ins2_w += work_time
             heapq.heappush(fel,([sim_time + work_time, 'ins22_done']))
         if ins2 == 3 and (c3_ws3 < 2) and not any(event[1] == 'ins23_done' for event in fel):
-            work_time = random.choice(ins23_input)
+            work_time = EXPDist_RVG(20.63275667)
             ins2_w += work_time
             heapq.heappush(fel,([sim_time + work_time, 'ins23_done']))
 
         if ws1 == 0 and c1_ws1 > 0 and not any(event[1] == 'ws1' for event in fel):
             heapq.heappush(fel,([sim_time, 'ws1']))
         if ws1 == 1 and c1_ws1 > 0 and not any(event[1] == 'ws1_done' for event in fel):
-            work_time = random.choice(ws1_input)
+            work_time = EXPDist_RVG(4.604416667)
             ws1_w += work_time
             heapq.heappush(fel,([sim_time + work_time, 'ws1_done']))
         
         if ws2 == 0 and c1_ws2 > 0 and c2_ws2 > 0 and not any(event[1] == 'ws2' for event in fel):
             heapq.heappush(fel,([sim_time, 'ws2']))
         if ws2 == 1 and c1_ws2 > 0 and c2_ws2 > 0 and not any(event[1] == 'ws2_done' for event in fel):
-            work_time = random.choice(ws2_input)
+            work_time = EXPDist_RVG(11.09260667)
             ws2_w += work_time
             heapq.heappush(fel,([sim_time + work_time, 'ws2_done']))
         
         if ws3 == 0 and c1_ws3 > 0 and c3_ws3 > 0 and not any(event[1] == 'ws3' for event in fel):
             heapq.heappush(fel,([sim_time, 'ws3']))
         if ws3 == 1 and c1_ws3 > 0 and c3_ws3 > 0 and not any(event[1] == 'ws3_done' for event in fel):
-            work_time = random.choice(ws3_input)
+            work_time = EXPDist_RVG(8.79558)
             ws3_w += work_time
             heapq.heappush(fel,([sim_time + work_time, 'ws3_done']))
 
-        print(fel)
+        # print(fel)
         
         # find prev_sim_time for average buffer occupancy calculations
         prev_sim_time = sim_time
@@ -256,20 +270,20 @@ def sim(run_num):
                 ins2 = 0
                 c2_ws2 += 1
                 heapq.heappush(c2_ws2_times, sim_time)
-                c2_ws2_times.append(sim_time)
                 appendToCSV(sim_time,'ins2 end produce to c2_ws2')
         elif event_type == 'ins23_done':
             if c3_ws3 < 2:
                 ins2 = 0
                 c3_ws3 += 1
                 heapq.heappush(c3_ws3_times, sim_time)
-                c3_ws3_times.append(sim_time)
                 appendToCSV(sim_time,'ins2 end produce to c3_ws3')
 
         elif event_type == 'ws1':
             if c1_ws1 > 0:
                 ws1 = 1
-                c1_ws1_times_c == (c1_ws1_times_c + sim_time - heapq.heappop(c1_ws1_times)) / c1
+                c1_ws1_times_c += sim_time - heapq.heappop(c1_ws1_times)
+                if c1 > 0:
+                    c1_ws1_times_w = c1_ws1_times_c / c1
                 c1_ws1 -= 1
                 appendToCSV(sim_time,'ws1 started')
         elif event_type == 'ws1_done':
@@ -280,8 +294,12 @@ def sim(run_num):
         elif event_type == 'ws2':
             if c1_ws2 > 0 and c2_ws2 > 0:
                 ws2 = 1
-                c1_ws2_times_c == (c1_ws2_times_c + sim_time - heapq.heappop(c1_ws2_times)) / c1
-                c2_ws2_times_c == (c2_ws2_times_c + sim_time - heapq.heappop(c2_ws2_times)) / c3
+                c1_ws2_times_c += sim_time - heapq.heappop(c1_ws2_times)
+                if c1 > 0:
+                    c1_ws2_times_w = c1_ws2_times_c / c1
+                c2_ws2_times_c += sim_time - heapq.heappop(c2_ws2_times)
+                if c2 > 0:
+                    c2_ws2_times_w = c2_ws2_times_c / c2
                 c1_ws2 -= 1
                 c2_ws2 -= 1
                 appendToCSV(sim_time,'ws2 started')
@@ -293,8 +311,12 @@ def sim(run_num):
         elif event_type == 'ws3':
             if c1_ws3 > 0 and c3_ws3 > 0:
                 ws3 = 1
-                c1_ws3_times_c == (c1_ws3_times_c + sim_time - heapq.heappop(c1_ws3_times)) / c1
-                c3_ws3_times_c == (c3_ws3_times_c + sim_time - heapq.heappop(c3_ws3_times)) / c3
+                c1_ws3_times_c += sim_time - heapq.heappop(c1_ws3_times)
+                if c1 > 0:
+                    c1_ws3_times_w = c1_ws3_times_c / c1
+                c3_ws3_times_c += sim_time - heapq.heappop(c3_ws3_times)
+                if c3 > 0:
+                    c3_ws3_times_w = c3_ws3_times_c / c3
                 c1_ws3 -= 1
                 c3_ws3 -= 1
                 appendToCSV(sim_time,'ws3 started')
@@ -303,9 +325,12 @@ def sim(run_num):
             p3 += 1
             appendToCSV(sim_time,'ws3 end produce to p3')
 
-    print(f'simulation ran for:', {sim_time}, 'minutes')
-    print(f'components used: c1:', {c1}, 'c2:', {c2}, 'c3:', {c3})
-    print(f'products created: p1:', {p1}, 'p2:', {p2}, 'p3:', {p3})
+    # print(f'simulation ran for:', {sim_time}, 'minutes')
+    # print(f'components used: c1:', {c1}, 'c2:', {c2}, 'c3:', {c3})
+    # print(f'products created: p1:', {p1}, 'p2:', {p2}, 'p3:', {p3})
+
+    return [c3_ws3_o]
+    # return [p1+p2+p3,c1_ws1_o,c1_ws2_o,c2_ws2_o,c1_ws3_o,c3_ws3_o]
 
     print(f'c1_ws1 average occupancy: {c1_ws1_o}')
     print(f'c1_ws2 average occupancy: {c1_ws2_o}')
@@ -313,19 +338,22 @@ def sim(run_num):
     print(f'c1_ws3 average occupancy: {c1_ws3_o}')
     print(f'c3_ws3 average occupancy: {c3_ws3_o}')
 
-    print(f'L c1: {c1_ws1_o+c1_ws2_o+c1_ws3_o}')
-    print(f'L c2: {c2_ws2_o}')
-    print(f'L c3: {c3_ws3_o}')
+    print(f'L c1 total: {c1_ws1_o+c1_ws2_o+c1_ws3_o}')
+    print(f'L c1_ws1: {c1_ws1_o}')
+    print(f'L c1_ws2: {c1_ws2_o}')
+    print(f'L c1_ws3: {c1_ws3_o}')
+    print(f'L c2_ws2: {c2_ws2_o}')
+    print(f'L c3_ws3: {c3_ws3_o}')
 
     print(f'lambda c1 take in rate: {c1_t}')
     print(f'lambda c2 take in rate: {c2_t}')
     print(f'lambda c3 take in rate: {c3_t}')
 
-    print(f'W c1_ws1: {c1_ws1_times_c}')
-    print(f'W c1_ws2: {c1_ws2_times_c}')
-    print(f'W c2_ws2: {c2_ws2_times_c}')
-    print(f'W c1_ws3: {c1_ws3_times_c}')
-    print(f'W c3_ws3: {c3_ws3_times_c}')
+    print(f'W c1_ws1: {c1_ws1_times_w}')
+    print(f'W c1_ws2: {c1_ws2_times_w}')
+    print(f'W c2_ws2: {c2_ws2_times_w}')
+    print(f'W c1_ws3: {c1_ws3_times_w}')
+    print(f'W c3_ws3: {c3_ws3_times_w}')
 
     print(f'p1 throughput: {p1_t}')
     print(f'p2 throughput: {p2_t}')
@@ -345,4 +373,4 @@ def sim(run_num):
     print(f'ws3 work time: {ws3_w}')
     print(f'ws3 blocked time: {ws3_i}')
 
-sim(0)
+# sim(0,10423,12140)
