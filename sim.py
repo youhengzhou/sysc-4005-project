@@ -140,7 +140,7 @@ c1_ws3_times_w = 0
 c2_ws2_times_w = 0
 c3_ws3_times_w = 0
 
-def sim(run_num, clcg_x1, clcg_x2):
+def sim(clcg_x1, clcg_x2):
     global sim_time, fel, x1, x2
     global c1,c2,c3,ins1,ins2,c1_ws1,c1_ws2,c1_ws3,c2_ws2,c3_ws3,ws1,ws2,ws3,p1,p2,p3
     global p1_t,p2_t,p3_t,ins1_w,ins1_b,ins2_w,ins2_b,ws1_w,ws1_i,ws2_w,ws2_i,ws3_w,ws3_i,c1_ws1_o,c1_ws2_o,c1_ws3_o,c2_ws2_o,c3_ws3_o,c1_ws1_s,c1_ws1_o,c1_ws2_s,c1_ws2_o,c1_ws3_s,c1_ws3_o,c2_ws2_s,c2_ws2_o,c3_ws3_s,c3_ws3_o

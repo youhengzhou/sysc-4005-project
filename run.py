@@ -1,16 +1,16 @@
 import sim
 
-print(sim.sim(0,18943,30084))
+print(sim.sim(18943,30084))
 
 # print(sum([0.34,0.32,0.36,0.35,0.33])/5)
 
 # print(0.6/0.015811388300842)
 
-# print(sum(sim.sim(0,18943,30084)))
-# print(sum(sim.sim(0,23943,12084)))
-# print(sum(sim.sim(0,18423,15084)))
-# print(sum(sim.sim(0,11393,23334)))
-# print(sum(sim.sim(0,18433,57034)))
+# print(sum(sim.sim(18943,30084)))
+# print(sum(sim.sim(23943,12084)))
+# print(sum(sim.sim(18423,15084)))
+# print(sum(sim.sim(11393,23334)))
+# print(sum(sim.sim(18433,57034)))
 
 
 # 1.155556958863426040106739199,
