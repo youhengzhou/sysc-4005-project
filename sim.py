@@ -95,6 +95,15 @@ p3 = 0
 c1_t = 0 # component take in rate
 c2_t = 0
 c3_t = 0
+c1_s = 0 # component in system (total)
+c2_s = 0
+c3_s = 0
+c1_o = 0 # component in system (average)
+c2_o = 0
+c3_o = 0
+c1_w = 0
+c2_w = 0
+c3_w =0
 p1_t = 0 # product throughput
 p2_t = 0
 p3_t = 0
@@ -108,21 +117,21 @@ ws2_w = 0
 ws2_i = 0
 ws3_w = 0
 ws3_i = 0
-c1_ws1_s = 0 # buffer total sum
+c1_ws1_s = 0 # buffer time interval sum
 c1_ws1_o = 0 # buffer occupancy
-c1_ws1_t = 0 # time in buffer
+c1_ws1_t = 0 # buffer total count
 c1_ws2_s = 0
 c1_ws2_o = 0
-c1_ws2_t = 0 # time in buffer
+c1_ws2_t = 0
 c1_ws3_s = 0
 c1_ws3_o = 0
-c1_ws3_t = 0 # time in buffer
+c1_ws3_t = 0
 c2_ws2_s = 0
 c2_ws2_o = 0
-c2_ws2_t = 0 # time in buffer
+c2_ws2_t = 0
 c3_ws3_s = 0
 c3_ws3_o = 0
-c3_ws3_t = 0 # time in buffer
+c3_ws3_t = 0
 
 c1_ws1_times = []
 c1_ws2_times = []
@@ -143,7 +152,7 @@ c3_ws3_times_w = 0
 def sim(clcg_x1, clcg_x2):
     global sim_time, fel, x1, x2
     global c1,c2,c3,ins1,ins2,c1_ws1,c1_ws2,c1_ws3,c2_ws2,c3_ws3,ws1,ws2,ws3,p1,p2,p3
-    global p1_t,p2_t,p3_t,ins1_w,ins1_b,ins2_w,ins2_b,ws1_w,ws1_i,ws2_w,ws2_i,ws3_w,ws3_i,c1_ws1_o,c1_ws2_o,c1_ws3_o,c2_ws2_o,c3_ws3_o,c1_ws1_s,c1_ws1_o,c1_ws2_s,c1_ws2_o,c1_ws3_s,c1_ws3_o,c2_ws2_s,c2_ws2_o,c3_ws3_s,c3_ws3_o
+    global c1_ws1_t,c1_ws2_t,c1_ws3_t,c2_ws2_t,c3_ws3_t,c1_w,c2_2,c3_w,c1_s,c2_s,c3_s,c1_o,c2_o,c3_o,p1_t,p2_t,p3_t,ins1_w,ins1_b,ins2_w,ins2_b,ws1_w,ws1_i,ws2_w,ws2_i,ws3_w,ws3_i,c1_ws1_o,c1_ws2_o,c1_ws3_o,c2_ws2_o,c3_ws3_o,c1_ws1_s,c1_ws1_o,c1_ws2_s,c1_ws2_o,c1_ws3_s,c1_ws3_o,c2_ws2_s,c2_ws2_o,c3_ws3_s,c3_ws3_o
     global c1_ws1_times,c1_ws2_times,c1_ws3_times,c2_ws2_times,c3_ws3_times,c1_ws1_times_c,c1_ws2_times_c,c1_ws3_times_c,c2_ws2_times_c,c3_ws3_times_c,c1_ws1_times_w,c1_ws2_times_w,c1_ws3_times_w,c2_ws2_times_w,c3_ws3_times_w
 
     # initialize csv files for getting data
@@ -222,12 +231,19 @@ def sim(clcg_x1, clcg_x2):
         c2_ws2_s += c2_ws2 * time_interval
         c3_ws3_s += c3_ws3 * time_interval
 
+        c1_s += (c1_ws1+c1_ws2+c1_ws3) * time_interval
+        c2_s += c2_ws2 * time_interval
+        c3_s += c3_ws3 * time_interval
+
         if not sim_time == 0:
             c1_ws1_o = Decimal(c1_ws1_s) / Decimal(sim_time)
             c1_ws2_o = Decimal(c1_ws2_s) / Decimal(sim_time)
             c1_ws3_o = Decimal(c1_ws3_s) / Decimal(sim_time)
             c2_ws2_o = Decimal(c2_ws2_s) / Decimal(sim_time)
             c3_ws3_o = Decimal(c3_ws3_s) / Decimal(sim_time) 
+            c1_o = Decimal(c1_s) / Decimal(sim_time)
+            c2_o = Decimal(c2_s) / Decimal(sim_time)
+            c3_o = Decimal(c3_s) / Decimal(sim_time)
 
         # handle events, change state
         # "start events" toggle entity state to 1
@@ -246,14 +262,17 @@ def sim(clcg_x1, clcg_x2):
                 ins1 = 0
                 if buffers[0][1] == 'c1_ws1':
                     c1_ws1 += 1
+                    c1_ws1_t += 1
                     heapq.heappush(c1_ws1_times, sim_time)
                     appendToCSV(sim_time,'ins1 end produce to c1_ws1')
                 elif buffers[0][1] == 'c1_ws2':
                     c1_ws2 += 1
+                    c1_ws2_t += 1
                     heapq.heappush(c1_ws2_times, sim_time)
                     appendToCSV(sim_time,'ins1 end produce to c1_ws2')
                 else:
                     c1_ws3 += 1
+                    c1_ws3_t += 1
                     heapq.heappush(c1_ws3_times, sim_time)
                     appendToCSV(sim_time,'ins1 end produce to c1_ws3')
                 
@@ -269,21 +288,23 @@ def sim(clcg_x1, clcg_x2):
             if c2_ws2 < 2:
                 ins2 = 0
                 c2_ws2 += 1
+                c2_ws2_t += 1
                 heapq.heappush(c2_ws2_times, sim_time)
                 appendToCSV(sim_time,'ins2 end produce to c2_ws2')
         elif event_type == 'ins23_done':
             if c3_ws3 < 2:
                 ins2 = 0
                 c3_ws3 += 1
+                c3_ws3_t += 1
                 heapq.heappush(c3_ws3_times, sim_time)
                 appendToCSV(sim_time,'ins2 end produce to c3_ws3')
 
         elif event_type == 'ws1':
             if c1_ws1 > 0:
                 ws1 = 1
-                c1_ws1_times_c += sim_time - heapq.heappop(c1_ws1_times)
-                if c1 > 0:
-                    c1_ws1_times_w = c1_ws1_times_c / c1
+                # c1_ws1_times_c += sim_time - heapq.heappop(c1_ws1_times)
+                # if c1 > 0:
+                #     c1_ws1_times_w = c1_ws1_times_c / c1
                 c1_ws1 -= 1
                 appendToCSV(sim_time,'ws1 started')
         elif event_type == 'ws1_done':
@@ -294,12 +315,12 @@ def sim(clcg_x1, clcg_x2):
         elif event_type == 'ws2':
             if c1_ws2 > 0 and c2_ws2 > 0:
                 ws2 = 1
-                c1_ws2_times_c += sim_time - heapq.heappop(c1_ws2_times)
-                if c1 > 0:
-                    c1_ws2_times_w = c1_ws2_times_c / c1
-                c2_ws2_times_c += sim_time - heapq.heappop(c2_ws2_times)
-                if c2 > 0:
-                    c2_ws2_times_w = c2_ws2_times_c / c2
+                # c1_ws2_times_c += sim_time - heapq.heappop(c1_ws2_times)
+                # if c1 > 0:
+                #     c1_ws2_times_w = c1_ws2_times_c / c1
+                # c2_ws2_times_c += sim_time - heapq.heappop(c2_ws2_times)
+                # if c2 > 0:
+                #     c2_ws2_times_w = c2_ws2_times_c / c2
                 c1_ws2 -= 1
                 c2_ws2 -= 1
                 appendToCSV(sim_time,'ws2 started')
@@ -311,12 +332,12 @@ def sim(clcg_x1, clcg_x2):
         elif event_type == 'ws3':
             if c1_ws3 > 0 and c3_ws3 > 0:
                 ws3 = 1
-                c1_ws3_times_c += sim_time - heapq.heappop(c1_ws3_times)
-                if c1 > 0:
-                    c1_ws3_times_w = c1_ws3_times_c / c1
-                c3_ws3_times_c += sim_time - heapq.heappop(c3_ws3_times)
-                if c3 > 0:
-                    c3_ws3_times_w = c3_ws3_times_c / c3
+                # c1_ws3_times_c += sim_time - heapq.heappop(c1_ws3_times)
+                # if c1 > 0:
+                #     c1_ws3_times_w = c1_ws3_times_c / c1
+                # c3_ws3_times_c += sim_time - heapq.heappop(c3_ws3_times)
+                # if c3 > 0:
+                #     c3_ws3_times_w = c3_ws3_times_c / c3
                 c1_ws3 -= 1
                 c3_ws3 -= 1
                 appendToCSV(sim_time,'ws3 started')
@@ -329,48 +350,66 @@ def sim(clcg_x1, clcg_x2):
     # print(f'components used: c1:', {c1}, 'c2:', {c2}, 'c3:', {c3})
     # print(f'products created: p1:', {p1}, 'p2:', {p2}, 'p3:', {p3})
 
-    return [c3_ws3_o]
-    # return [p1+p2+p3,c1_ws1_o,c1_ws2_o,c2_ws2_o,c1_ws3_o,c3_ws3_o]
+    # total components little's law
+    print('total components littles law')
+    # print(f'L total: {c1_o+c2_o+c3_o}')
+    print(f'L c1: {c1_o}')
+    print(f'L c2: {c2_o}')
+    print(f'L c3: {c3_o}')
+    
+    # print(f'check c total: {(c1_t+c2_t+c3_t) * (c1_s/c1 + c2_s/c2 + c3_s/c3)}')
+    print(f'check c1: {c1_t * c1_s/c1}')
+    print(f'check c2: {c2_t * c2_s/c2}')
+    print(f'check c3: {c3_t * c3_s/c3}')
 
-    print(f'c1_ws1 average occupancy: {c1_ws1_o}')
-    print(f'c1_ws2 average occupancy: {c1_ws2_o}')
-    print(f'c2_ws2 average occupancy: {c2_ws2_o}')
-    print(f'c1_ws3 average occupancy: {c1_ws3_o}')
-    print(f'c3_ws3 average occupancy: {c3_ws3_o}')
-
-    print(f'L c1 total: {c1_ws1_o+c1_ws2_o+c1_ws3_o}')
-    print(f'L c1_ws1: {c1_ws1_o}')
-    print(f'L c1_ws2: {c1_ws2_o}')
-    print(f'L c1_ws3: {c1_ws3_o}')
-    print(f'L c2_ws2: {c2_ws2_o}')
-    print(f'L c3_ws3: {c3_ws3_o}')
-
+    # print(f'lambda total: {c1_t+c2_t+c3_t}')
     print(f'lambda c1 take in rate: {c1_t}')
     print(f'lambda c2 take in rate: {c2_t}')
     print(f'lambda c3 take in rate: {c3_t}')
 
-    print(f'W c1_ws1: {c1_ws1_times_w}')
-    print(f'W c1_ws2: {c1_ws2_times_w}')
-    print(f'W c2_ws2: {c2_ws2_times_w}')
-    print(f'W c1_ws3: {c1_ws3_times_w}')
-    print(f'W c3_ws3: {c3_ws3_times_w}')
+    # print(f'W total: {c1_s/c1 + c2_s/c2 + c3_s/c3}')
+    print(f'W c1: {c1_s/c1}')
+    print(f'W c2: {c2_s/c2}')
+    print(f'W c3: {c3_s/c3}')
 
-    print(f'p1 throughput: {p1_t}')
-    print(f'p2 throughput: {p2_t}')
-    print(f'p3 throughput: {p3_t}')
+    # buffers little's law
+    print('buffers littles law')
+    print(f'L c1_ws1 average occupancy: {c1_ws1_o}')
+    print(f'L c1_ws2 average occupancy: {c1_ws2_o}')
+    print(f'L c2_ws2 average occupancy: {c2_ws2_o}')
+    print(f'L c1_ws3 average occupancy: {c1_ws3_o}')
+    print(f'L c3_ws3 average occupancy: {c3_ws3_o}')
 
-    print(f'ins1 work time: {ins1_w}')
-    print(f'ins1 blocked time: {ins1_b}')
-    print(f'ins2 work time: {ins2_w}')
-    print(f'ins2 blocked time: {ins2_b}')
+    print(f'check c1_ws1: {c1_ws1_t/sim_time * c1_ws1_s/c1_ws1_t}')
+    print(f'check c1_ws2: {c1_ws2_t/sim_time * c1_ws2_s/c1_ws2_t}')
+    print(f'check c2_ws2: {c2_ws2_t/sim_time * c2_ws2_s/c2_ws2_t}')
+    print(f'check c1_ws3: {c1_ws3_t/sim_time * c1_ws3_s/c1_ws3_t}')
+    print(f'check c3_ws3: {c3_ws3_t/sim_time * c3_ws3_s/c3_ws3_t}')
 
-    print(f'ws1 work time: {ws1_w}')
-    print(f'ws1 blocked time: {ws1_i}')
+    print(f'lambda c1_ws1: {c1_ws1_t/sim_time}')
+    print(f'lambda c1_ws2: {c1_ws2_t/sim_time}')
+    print(f'lambda c2_ws2: {c2_ws2_t/sim_time}')
+    print(f'lambda c1_ws3: {c1_ws3_t/sim_time}')
+    print(f'lambda c3_ws3: {c3_ws3_t/sim_time}')
 
-    print(f'ws2 work time: {ws2_w}')
-    print(f'ws2 blocked time: {ws2_i}')
+    print(f'W c1_ws1: {c1_ws1_s/c1_ws1_t}')
+    print(f'W c1_ws2: {c1_ws2_s/c1_ws2_t}')
+    print(f'W c2_ws2: {c2_ws2_s/c2_ws2_t}')
+    print(f'W c1_ws3: {c1_ws3_s/c1_ws3_t}')
+    print(f'W c3_ws3: {c3_ws3_s/c3_ws3_t}')
 
-    print(f'ws3 work time: {ws3_w}')
-    print(f'ws3 blocked time: {ws3_i}')
+    # print(f'ins1 work time: {ins1_w}')
+    # print(f'ins1 blocked time: {ins1_b}')
+    # print(f'ins2 work time: {ins2_w}')
+    # print(f'ins2 blocked time: {ins2_b}')
 
-# sim(0,10423,12140)
+    # print(f'ws1 work time: {ws1_w}')
+    # print(f'ws1 blocked time: {ws1_i}')
+
+    # print(f'ws2 work time: {ws2_w}')
+    # print(f'ws2 blocked time: {ws2_i}')
+
+    # print(f'ws3 work time: {ws3_w}')
+    # print(f'ws3 blocked time: {ws3_i}')
+
+sim(10423,12140)
