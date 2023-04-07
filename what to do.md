@@ -126,3 +126,27 @@ with replications, find standard deviation
 each of the buffer
 
 Y +- t table state \* stnd dev / sqrt(n of replications)
+
+# answers
+
+**Flight List**
+
+**Model verification and validation**
+
+How we verified our model
+
+Different validation alternatives
+
+Little’s law to verify our code
+
+Input-output validation
+
+**Product runs and analysis**
+
+Find quantities of interest
+
+Perform replications, show replications are enough
+
+Find initialization phase with proper length
+
+Find confidence interval of each quantity
