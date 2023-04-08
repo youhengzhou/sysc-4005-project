@@ -46,9 +46,32 @@ def appendToCSV(arrival_time, event_type):
     ws2_i = Decimal(sim_time) - Decimal(ws2_w)
     ws3_i = Decimal(sim_time) - Decimal(ws3_w)
 
-    new_row = "\n%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (str(arrival_time),event_type,str(c1_t),str(c2_t),str(c3_t),str(p1_t),str(p2_t),str(p3_t),str(ins1_b),str(ins2_b),str(ws1_i),str(ws2_i),str(ws3_i),str(c1_ws1_o),str(c1_ws2_o),str(c1_ws3_o),str(c2_ws2_o),str(c3_ws3_o),str(c1),str(c2),str(c3),str(ins1),str(ins2),str(c1_ws1),str(c1_ws2),str(c1_ws3),str(c2_ws2),str(c3_ws3),str(ws1),str(ws2),str(ws3),str(p1),str(p2),str(p3))
+    new_row = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (str(arrival_time),event_type,str(c1_t),str(c2_t),str(c3_t),str(p1_t),str(p2_t),str(p3_t),str(ins1_b),str(ins2_b),str(ws1_i),str(ws2_i),str(ws3_i),str(c1_ws1_o),str(c1_ws2_o),str(c1_ws3_o),str(c2_ws2_o),str(c3_ws3_o),str(c1),str(c2),str(c3),str(ins1),str(ins2),str(c1_ws1),str(c1_ws2),str(c1_ws3),str(c2_ws2),str(c3_ws3),str(ws1),str(ws2),str(ws3),str(p1),str(p2),str(p3))
     with open("data.csv", "a") as f:
         f.write(new_row)
+
+# def appendToCSV(arrival_time, event_type):
+#     global sim_time
+#     global c1_t,c2_t,c3_t,p1_t,p2_t,p3_t,ins1_w,ins1_b,ins2_w,ins2_b,ws1_w,ws1_i,ws2_w,ws2_i,ws3_w,ws3_i,c1_ws1_o,c1_ws2_o,c1_ws3_o,c2_ws2_o,c3_ws3_o,c1_ws1_s,c1_ws1_o,c1_ws2_s,c1_ws2_o,c1_ws3_s,c1_ws3_o,c2_ws2_s,c2_ws2_o,c3_ws3_s,c3_ws3_o
+
+#     if not sim_time == 0:
+#         c1_t = Decimal(c1) / Decimal(sim_time)
+#         c2_t = Decimal(c2) / Decimal(sim_time)
+#         c3_t = Decimal(c3) / Decimal(sim_time)
+#         p1_t = Decimal(p1) / Decimal(sim_time)
+#         p2_t = Decimal(p2) / Decimal(sim_time)
+#         p3_t = Decimal(p3) / Decimal(sim_time)
+#     if Decimal(sim_time) - Decimal(ins1_w) >= 0 and ins1 == 0:
+#         ins1_b = Decimal(sim_time) - Decimal(ins1_w)
+#     if Decimal(sim_time) - Decimal(ins2_w) >= 0 and ins2 == 0:
+#         ins2_b = Decimal(sim_time) - Decimal(ins2_w)
+#     ws1_i = Decimal(sim_time) - Decimal(ws1_w)
+#     ws2_i = Decimal(sim_time) - Decimal(ws2_w)
+#     ws3_i = Decimal(sim_time) - Decimal(ws3_w)
+
+#     new_row = "%s,%s,%s,%s\n" % (str(arrival_time),str(p1_t),str(p2_t),str(p3_t))
+#     with open("data.csv", "a") as f:
+#         f.write(new_row)
 
 # read input files
 def read_dat_files(file_name):
@@ -215,12 +238,14 @@ def sim(clcg_x1, clcg_x2):
         # calculate average buffer occupancies
         time_interval = sim_time - prev_sim_time
 
+        # time interval of component in the buffer
         c1_ws1_s += c1_ws1 * time_interval
         c1_ws2_s += c1_ws2 * time_interval
         c1_ws3_s += c1_ws3 * time_interval
         c2_ws2_s += c2_ws2 * time_interval
         c3_ws3_s += c3_ws3 * time_interval
 
+        # time interval of component in the facility
         c1_l += c1_s * time_interval
         c2_l += c2_s * time_interval
         c3_l += c3_s * time_interval
@@ -343,31 +368,25 @@ def sim(clcg_x1, clcg_x2):
     print(f'W c2: {c2_l/c2_s}')
     print(f'W c3: {c3_l/c3_s}')
 
-    # buffers little's law
-    print('buffers littles law')
-    print(f'L c1_ws1 average occupancy: {c1_ws1_o}')
-    print(f'L c1_ws2 average occupancy: {c1_ws2_o}')
-    print(f'L c2_ws2 average occupancy: {c2_ws2_o}')
-    print(f'L c1_ws3 average occupancy: {c1_ws3_o}')
-    print(f'L c3_ws3 average occupancy: {c3_ws3_o}')
+    # # buffers little's law
+    # print('buffers littles law')
+    # print(f'L c1_ws1 average occupancy: {c1_ws1_o}')
+    # print(f'L c1_ws2 average occupancy: {c1_ws2_o}')
+    # print(f'L c2_ws2 average occupancy: {c2_ws2_o}')
+    # print(f'L c1_ws3 average occupancy: {c1_ws3_o}')
+    # print(f'L c3_ws3 average occupancy: {c3_ws3_o}')
 
-    print(f'lambda c1_ws1: {c1_ws1_t/sim_time}')
-    print(f'lambda c1_ws2: {c1_ws2_t/sim_time}')
-    print(f'lambda c2_ws2: {c2_ws2_t/sim_time}')
-    print(f'lambda c1_ws3: {c1_ws3_t/sim_time}')
-    print(f'lambda c3_ws3: {c3_ws3_t/sim_time}')
+    # print(f'lambda c1_ws1: {c1_ws1_t/sim_time}')
+    # print(f'lambda c1_ws2: {c1_ws2_t/sim_time}')
+    # print(f'lambda c2_ws2: {c2_ws2_t/sim_time}')
+    # print(f'lambda c1_ws3: {c1_ws3_t/sim_time}')
+    # print(f'lambda c3_ws3: {c3_ws3_t/sim_time}')
 
-    print(f'W c1_ws1: {c1_ws1_s/c1_ws1_t}')
-    print(f'W c1_ws2: {c1_ws2_s/c1_ws2_t}')
-    print(f'W c2_ws2: {c2_ws2_s/c2_ws2_t}')
-    print(f'W c1_ws3: {c1_ws3_s/c1_ws3_t}')
-    print(f'W c3_ws3: {c3_ws3_s/c3_ws3_t}')
-
-    print(f'check c1_ws1: {c1_ws1_t/sim_time * c1_ws1_s/c1_ws1_t}')
-    print(f'check c1_ws2: {c1_ws2_t/sim_time * c1_ws2_s/c1_ws2_t}')
-    print(f'check c2_ws2: {c2_ws2_t/sim_time * c2_ws2_s/c2_ws2_t}')
-    print(f'check c1_ws3: {c1_ws3_t/sim_time * c1_ws3_s/c1_ws3_t}')
-    print(f'check c3_ws3: {c3_ws3_t/sim_time * c3_ws3_s/c3_ws3_t}')
+    # print(f'W c1_ws1: {c1_ws1_s/c1_ws1_t}')
+    # print(f'W c1_ws2: {c1_ws2_s/c1_ws2_t}')
+    # print(f'W c2_ws2: {c2_ws2_s/c2_ws2_t}')
+    # print(f'W c1_ws3: {c1_ws3_s/c1_ws3_t}')
+    # print(f'W c3_ws3: {c3_ws3_s/c3_ws3_t}')
 
     # print(f'ins1 work time: {ins1_w}')
     # print(f'ins1 blocked time: {ins1_b}')
