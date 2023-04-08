@@ -350,9 +350,9 @@ def sim(clcg_x1, clcg_x2):
             c3_s -= 1
             appendToCSV(sim_time,'ws3 end produce to p3')
 
-    # print(f'simulation ran for:', {sim_time}, 'minutes')
-    # print(f'components used: c1:', {c1}, 'c2:', {c2}, 'c3:', {c3})
-    # print(f'products created: p1:', {p1}, 'p2:', {p2}, 'p3:', {p3})
+    print(f'simulation ran for:', {sim_time}, 'minutes')
+    print(f'components used: c1:', {c1}, 'c2:', {c2}, 'c3:', {c3})
+    print(f'products created: p1:', {p1}, 'p2:', {p2}, 'p3:', {p3})
 
     # total components little's law
     print('facility littles law')
@@ -368,38 +368,38 @@ def sim(clcg_x1, clcg_x2):
     print(f'W c2: {c2_l/c2_s}')
     print(f'W c3: {c3_l/c3_s}')
 
-    # # buffers little's law
-    # print('buffers littles law')
-    # print(f'L c1_ws1 average occupancy: {c1_ws1_o}')
-    # print(f'L c1_ws2 average occupancy: {c1_ws2_o}')
-    # print(f'L c2_ws2 average occupancy: {c2_ws2_o}')
-    # print(f'L c1_ws3 average occupancy: {c1_ws3_o}')
-    # print(f'L c3_ws3 average occupancy: {c3_ws3_o}')
+    # buffers little's law
+    print('buffers littles law')
+    print(f'L c1_ws1 average occupancy: {c1_ws1_o}')
+    print(f'L c1_ws2 average occupancy: {c1_ws2_o}')
+    print(f'L c2_ws2 average occupancy: {c2_ws2_o}')
+    print(f'L c1_ws3 average occupancy: {c1_ws3_o}')
+    print(f'L c3_ws3 average occupancy: {c3_ws3_o}')
 
-    # print(f'lambda c1_ws1: {c1_ws1_t/sim_time}')
-    # print(f'lambda c1_ws2: {c1_ws2_t/sim_time}')
-    # print(f'lambda c2_ws2: {c2_ws2_t/sim_time}')
-    # print(f'lambda c1_ws3: {c1_ws3_t/sim_time}')
-    # print(f'lambda c3_ws3: {c3_ws3_t/sim_time}')
+    print(f'lambda c1_ws1: {c1_ws1_t/sim_time}')
+    print(f'lambda c1_ws2: {c1_ws2_t/sim_time}')
+    print(f'lambda c2_ws2: {c2_ws2_t/sim_time}')
+    print(f'lambda c1_ws3: {c1_ws3_t/sim_time}')
+    print(f'lambda c3_ws3: {c3_ws3_t/sim_time}')
 
-    # print(f'W c1_ws1: {c1_ws1_s/c1_ws1_t}')
-    # print(f'W c1_ws2: {c1_ws2_s/c1_ws2_t}')
-    # print(f'W c2_ws2: {c2_ws2_s/c2_ws2_t}')
-    # print(f'W c1_ws3: {c1_ws3_s/c1_ws3_t}')
-    # print(f'W c3_ws3: {c3_ws3_s/c3_ws3_t}')
+    print(f'W c1_ws1: {c1_ws1_s/c1_ws1_t}')
+    print(f'W c1_ws2: {c1_ws2_s/c1_ws2_t}')
+    print(f'W c2_ws2: {c2_ws2_s/c2_ws2_t}')
+    print(f'W c1_ws3: {c1_ws3_s/c1_ws3_t}')
+    print(f'W c3_ws3: {c3_ws3_s/c3_ws3_t}')
 
-    # print(f'ins1 work time: {ins1_w}')
-    # print(f'ins1 blocked time: {ins1_b}')
-    # print(f'ins2 work time: {ins2_w}')
-    # print(f'ins2 blocked time: {ins2_b}')
+    print(f'ins1 work time: {ins1_w}')
+    print(f'ins1 blocked time: {ins1_b}')
+    print(f'ins2 work time: {ins2_w}')
+    print(f'ins2 blocked time: {ins2_b}')
 
-    # print(f'ws1 work time: {ws1_w}')
-    # print(f'ws1 blocked time: {ws1_i}')
+    print(f'ws1 work time: {ws1_w}')
+    print(f'ws1 blocked time: {ws1_i}')
 
-    # print(f'ws2 work time: {ws2_w}')
-    # print(f'ws2 blocked time: {ws2_i}')
+    print(f'ws2 work time: {ws2_w}')
+    print(f'ws2 blocked time: {ws2_i}')
 
-    # print(f'ws3 work time: {ws3_w}')
-    # print(f'ws3 blocked time: {ws3_i}')
+    print(f'ws3 work time: {ws3_w}')
+    print(f'ws3 blocked time: {ws3_i}')
 
 sim(10423,12140)
