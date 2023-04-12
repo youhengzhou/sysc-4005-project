@@ -159,6 +159,9 @@ def sim(clcg_x1, clcg_x2):
     global c1_l,c2_l,c3_l,c1_ws1_t,c1_ws2_t,c1_ws3_t,c2_ws2_t,c3_ws3_t,c1_w,c2_2,c3_w,c1_s,c2_s,c3_s,c1_o,c2_o,c3_o,p1_t,p2_t,p3_t,ins1_w,ins1_b,ins2_w,ins2_b,ws1_w,ws1_i,ws2_w,ws2_i,ws3_w,ws3_i,c1_ws1_o,c1_ws2_o,c1_ws3_o,c2_ws2_o,c3_ws3_o,c1_ws1_s,c1_ws1_o,c1_ws2_s,c1_ws2_o,c1_ws3_s,c1_ws3_o,c2_ws2_s,c2_ws2_o,c3_ws3_s,c3_ws3_o
     global c1_ws1_times,c1_ws2_times,c1_ws3_times,c2_ws2_times,c3_ws3_times,c1_ws1_times_c,c1_ws2_times_c,c1_ws3_times_c,c2_ws2_times_c,c3_ws3_times_c,c1_ws1_times_w,c1_ws2_times_w,c1_ws3_times_w,c2_ws2_times_w,c3_ws3_times_w
 
+    # counter used for round robin component routing policy for inspector 1
+    counter = 0
+
     # initialize csv files for getting data
     if (os.path.exists('data.csv')):
         os.remove('data.csv')
@@ -272,26 +275,26 @@ def sim(clcg_x1, clcg_x2):
             c1_s += 1
             appendToCSV(sim_time,'ins1 started')
         elif event_type == 'ins1_done':
-            buffers = []
-            buffers.append([c1_ws1,'c1_ws1'])
-            buffers.append([c1_ws2,'c1_ws2'])
-            buffers.append([c1_ws3,'c1_ws3'])
-            buffers.sort()
-            if buffers[0][0] < 2:
-                ins1 = 0
-                if buffers[0][1] == 'c1_ws1':
+            if counter == 1:
+                if c1_ws1 < 2:
+                    ins1 = 0
                     c1_ws1 += 1
                     c1_ws1_t += 1
                     appendToCSV(sim_time,'ins1 end produce to c1_ws1')
-                elif buffers[0][1] == 'c1_ws2':
+            elif counter == 2:
+                if c1_ws2 < 2:
+                    ins1 = 0
                     c1_ws2 += 1
                     c1_ws2_t += 1
                     appendToCSV(sim_time,'ins1 end produce to c1_ws2')
-                else:
+            else:
+                if c1_ws3 < 2:
+                    ins1 = 0
                     c1_ws3 += 1
                     c1_ws3_t += 1
                     appendToCSV(sim_time,'ins1 end produce to c1_ws3')
-        
+            counter = (counter + 1) % 3
+                    
         # handle ins2 start and done events
         # ins22 is for component 2
         # ins23 is for component 3
