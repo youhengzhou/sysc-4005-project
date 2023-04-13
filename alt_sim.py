@@ -82,10 +82,13 @@ def read_dat_files(file_name):
     return output
 
 # simulation states
+# simulation time for event sorting
 sim_time = 0
+# future event list, a priority queue
 fel = []
-x1 = 18943
-x2 = 30084
+# global states for CLCG x1 and x2
+x1 = 0
+x2 = 0
 
 # factory states
 c1 = 0
